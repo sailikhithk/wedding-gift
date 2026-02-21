@@ -1,0 +1,254 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: #0a0604;
+  --foreground: #e8d5b7;
+  --card: #1a0e05;
+  --card-foreground: #e8d5b7;
+  --popover: #1a0e05;
+  --popover-foreground: #e8d5b7;
+  --primary: #c9a84c;
+  --primary-foreground: #1a0e05;
+  --secondary: #2a1a0a;
+  --secondary-foreground: #e8d5b7;
+  --muted: #2a1a0a;
+  --muted-foreground: #8b7355;
+  --accent: #c9a84c;
+  --accent-foreground: #1a0e05;
+  --destructive: #8b2500;
+  --destructive-foreground: #e8d5b7;
+  --border: #3d2a14;
+  --input: #3d2a14;
+  --ring: #c9a84c;
+  --radius: 0.625rem;
+
+  --gold: #c9a84c;
+  --gold-light: #e8d08a;
+  --parchment: #d4b896;
+  --parchment-dark: #b89b6a;
+  --ink: #2a1a0a;
+  --wax-red: #8b2500;
+}
+
+@theme inline {
+  --font-sans: var(--font-cinzel), Georgia, serif;
+  --font-serif: var(--font-im-fell), 'Palatino Linotype', Palatino, Georgia, serif;
+  --font-mono: var(--font-cinzel-decorative), Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-parchment: var(--parchment);
+  --color-parchment-dark: var(--parchment-dark);
+  --color-ink: var(--ink);
+  --color-wax-red: var(--wax-red);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ===== MAGICAL BOOK STYLES ===== */
+
+/* Wand cursor — detailed magic wand with glowing tip */
+.wand-cursor, .wand-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='wand' x1='0.3' y1='0' x2='0.8' y2='1'%3E%3Cstop offset='0%25' stop-color='%23f5e6b8'/%3E%3Cstop offset='25%25' stop-color='%23c9a84c'/%3E%3Cstop offset='50%25' stop-color='%238b6914'/%3E%3Cstop offset='75%25' stop-color='%23704214'/%3E%3Cstop offset='100%25' stop-color='%23543210'/%3E%3C/linearGradient%3E%3CradialGradient id='glow'%3E%3Cstop offset='0%25' stop-color='%23fff8e1' stop-opacity='1'/%3E%3Cstop offset='40%25' stop-color='%23e8d08a' stop-opacity='0.8'/%3E%3Cstop offset='100%25' stop-color='%23c9a84c' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='tipglow'%3E%3CfeGaussianBlur stdDeviation='1.5' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Ccircle cx='5' cy='5' r='5' fill='url(%23glow)'/%3E%3Cline x1='6' y1='6' x2='36' y2='36' stroke='url(%23wand)' stroke-width='3.5' stroke-linecap='round'/%3E%3Cline x1='6' y1='6' x2='36' y2='36' stroke='%23f5e6b8' stroke-width='0.8' stroke-linecap='round' opacity='0.4'/%3E%3Cline x1='20' y1='20' x2='22' y2='22' stroke='%23543210' stroke-width='5' stroke-linecap='round' opacity='0.5'/%3E%3Ccircle cx='5' cy='5' r='2.5' fill='%23fff8e1' filter='url(%23tipglow)'/%3E%3Cline x1='5' y1='1' x2='5' y2='4' stroke='%23e8d08a' stroke-width='0.7' opacity='0.6'/%3E%3Cline x1='5' y1='6' x2='5' y2='9' stroke='%23e8d08a' stroke-width='0.7' opacity='0.6'/%3E%3Cline x1='1' y1='5' x2='4' y2='5' stroke='%23e8d08a' stroke-width='0.7' opacity='0.6'/%3E%3Cline x1='6' y1='5' x2='9' y2='5' stroke='%23e8d08a' stroke-width='0.7' opacity='0.6'/%3E%3Cline x1='2.2' y1='2.2' x2='3.8' y2='3.8' stroke='%23e8d08a' stroke-width='0.5' opacity='0.4'/%3E%3Cline x1='6.2' y1='2.2' x2='7.8' y2='3.8' stroke='%23e8d08a' stroke-width='0.5' opacity='0.4'/%3E%3C/svg%3E") 5 5, pointer;
+}
+
+/* Lumos glow mask */
+.lumos-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 180px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    transparent 0%,
+    rgba(0, 0, 0, 0.09) 40%,
+    rgba(0, 0, 0, 0.24) 70%,
+    rgba(0, 0, 0, 0.36) 100%
+  );
+  transition: opacity 1.5s ease;
+}
+
+/* Sparkle effect for gold text */
+@keyframes sparkle {
+  0%, 100% { opacity: 0.7; text-shadow: 0 0 4px rgba(201, 168, 76, 0.3); }
+  50% { opacity: 1; text-shadow: 0 0 20px rgba(201, 168, 76, 0.8), 0 0 40px rgba(201, 168, 76, 0.4); }
+}
+
+.gold-sparkle {
+  animation: sparkle 3s ease-in-out infinite;
+}
+
+/* Book opening animation */
+@keyframes bookOpen {
+  0% { transform: perspective(1200px) rotateY(0deg); }
+  100% { transform: perspective(1200px) rotateY(-180deg); }
+}
+
+@keyframes coverLift {
+  0% { transform: perspective(1200px) rotateY(0deg); transform-origin: left center; }
+  100% { transform: perspective(1200px) rotateY(-160deg); transform-origin: left center; }
+}
+
+.book-cover-animate {
+  animation: coverLift 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: left center;
+}
+
+/* Page turn animation */
+@keyframes pageTurnForward {
+  0% { transform: perspective(1200px) rotateY(0deg); z-index: 10; }
+  100% { transform: perspective(1200px) rotateY(-180deg); z-index: 0; }
+}
+
+@keyframes pageTurnBack {
+  0% { transform: perspective(1200px) rotateY(-180deg); z-index: 0; }
+  100% { transform: perspective(1200px) rotateY(0deg); z-index: 10; }
+}
+
+.page-turn-forward {
+  animation: pageTurnForward 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: left center;
+}
+
+.page-turn-back {
+  animation: pageTurnBack 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: left center;
+}
+
+/* Parchment texture overlay */
+.parchment-bg {
+  background-image: url('/images/parchment.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Floating dust particles */
+@keyframes floatParticle {
+  0% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+  20% { opacity: 0.8; transform: scale(1); }
+  80% { opacity: 0.4; }
+  100% { transform: translateY(-100vh) translateX(50px) scale(0.5); opacity: 0; }
+}
+
+.dust-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--gold-light);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Whisper text animation */
+@keyframes fadeInWhisper {
+  0% { opacity: 0; letter-spacing: 0.5em; filter: blur(4px); }
+  100% { opacity: 0.7; letter-spacing: 0.2em; filter: blur(0px); }
+}
+
+.whisper-text {
+  animation: fadeInWhisper 3s ease-out forwards;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+/* Seal pulse */
+@keyframes sealPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(139, 37, 0, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(139, 37, 0, 0.6), 0 0 50px rgba(201, 168, 76, 0.2); }
+}
+
+.seal-pulse {
+  animation: sealPulse 2s ease-in-out infinite;
+}
+
+/* Moving picture sepia effect */
+.moving-picture {
+  filter: sepia(100%) contrast(0.9) brightness(0.9);
+  transition: filter 0.8s ease;
+}
+
+.moving-picture-color {
+  filter: sepia(0%) contrast(1) brightness(1);
+}
+
+/* Chapter heading flourish */
+@keyframes flourishReveal {
+  0% { width: 0; opacity: 0; }
+  100% { width: 100%; opacity: 1; }
+}
+
+.flourish-line {
+  animation: flourishReveal 1.5s ease-out forwards;
+}
+
+/* Page rustle float */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.gentle-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* Video modal transition */
+@keyframes expandVideo {
+  0% { transform: scale(0.3); opacity: 0; border-radius: 12px; }
+  100% { transform: scale(1); opacity: 1; border-radius: 0; }
+}
+
+.video-expand {
+  animation: expandVideo 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes collapseVideo {
+  0% { transform: scale(1); opacity: 1; border-radius: 0; }
+  100% { transform: scale(0.3); opacity: 0; border-radius: 12px; }
+}
+
+.video-collapse {
+  animation: collapseVideo 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Ink writing animation */
+@keyframes inkReveal {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
+}
+
+.ink-reveal {
+  animation: inkReveal 2s ease-out forwards;
+}

@@ -20,16 +20,21 @@ export default function SaiWedsSai() {
     }, 800)
   }, [])
 
+  const handleBookClose = useCallback(() => {
+    setStage("dark")
+    setFadeOut(false)
+  }, [])
+
   return (
     <main
-      className={`relative min-h-screen overflow-hidden ${stage === "dark" ? "wand-cursor" : ""}`}
+      className={`relative min-h-screen overflow-hidden wand-cursor`}
       style={{ background: "#0a0604" }}
     >
       {/* Dust particles — always visible */}
       <DustParticles />
 
       {/* Wand sparkle trail */}
-      <WandCursor enabled={stage === "dark"} />
+      <WandCursor enabled={true} />
 
       {/* Lumos flashlight effect */}
       <LumosOverlay enabled={stage === "dark"} />
@@ -45,7 +50,7 @@ export default function SaiWedsSai() {
       )}
 
       {/* Stage 3+: Reading the book */}
-      <BookInterior visible={stage === "reading"} />
+      <BookInterior visible={stage === "reading"} onClose={handleBookClose} />
 
       {/* Screen reader announcement */}
       <div className="sr-only" role="status" aria-live="polite">

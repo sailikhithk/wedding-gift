@@ -5,10 +5,12 @@ import { useState } from "react"
 interface MovingPictureProps {
   videoSrc?: string
   placeholder: string
+  gifUrl?: string
+  gifCaption?: string
   onExpand: () => void
 }
 
-export function MovingPicture({ videoSrc, placeholder, onExpand }: MovingPictureProps) {
+export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExpand }: MovingPictureProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
@@ -71,6 +73,20 @@ export function MovingPicture({ videoSrc, placeholder, onExpand }: MovingPicture
               playsInline
               className="moving-picture w-full h-full object-cover"
             />
+          ) : gifUrl ? (
+            /* HP character GIF with sepia/parchment filter */
+            <div className="w-full h-full moving-picture relative overflow-hidden">
+              <img
+                src={gifUrl}
+                alt={gifCaption ?? placeholder}
+                className="w-full h-full object-cover"
+                style={{ filter: "sepia(0.55) contrast(1.1) brightness(0.9)" }}
+              />
+              {/* Parchment vignette overlay */}
+              <div className="absolute inset-0 pointer-events-none" style={{
+                background: "radial-gradient(ellipse at center, transparent 50%, rgba(42,21,8,0.45) 100%)",
+              }} />
+            </div>
           ) : (
             /* Placeholder with animated grain effect */
             <div className="w-full h-full moving-picture flex items-center justify-center relative"
@@ -84,7 +100,6 @@ export function MovingPicture({ videoSrc, placeholder, onExpand }: MovingPicture
                   backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
                 }}
               />
-
               {/* Camera icon */}
               <div className="relative flex flex-col items-center gap-2">
                 <svg width="32" height="32" viewBox="0 0 24 24" className="text-gold/40">
@@ -124,7 +139,7 @@ export function MovingPicture({ videoSrc, placeholder, onExpand }: MovingPicture
           opacity: isHovered ? 1 : 0,
         }}
       >
-        {"Tap to reveal in full color"}
+        {gifUrl ? (gifCaption ?? "A magical moving portrait") : "Tap to reveal in full color"}
       </p>
     </button>
   )

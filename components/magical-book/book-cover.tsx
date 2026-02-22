@@ -34,6 +34,21 @@ export function BookCover({ onOpen }: BookCoverProps) {
         }}
       />
 
+      {/* Harry Potter flying — top-left corner */}
+      <img
+        src="/images/harry-potter-flying.png"
+        alt="Harry Potter flying on broomstick"
+        className="absolute pointer-events-none"
+        style={{
+          top: "16px",
+          left: "16px",
+          width: "clamp(130px, 15vw, 210px)",
+          opacity: 0.95,
+          filter: "drop-shadow(0 6px 18px rgba(0,0,0,0.85))",
+          zIndex: 25,
+        }}
+      />
+
       {/* 3D Book Scene */}
       <div
         className={`relative z-30 ${isOpening ? "book-cover-animate" : "gentle-float"}`}

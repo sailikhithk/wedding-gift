@@ -11,18 +11,21 @@ type Stage = "dark" | "opening" | "reading";
 
 export default function SaiWedsSai() {
   const [stage, setStage] = useState<Stage>("dark");
-  const [fadeOut, setFadeOut] = useState(false);
+  const [coverAnimDone, setCoverAnimDone] = useState(false);
 
   const handleBookOpen = useCallback(() => {
-    setFadeOut(true);
+    // Mount the interior immediately behind the cover
+    setStage("reading");
+
+    // Unmount the cover only after its 2s opening animation concludes
     setTimeout(() => {
-      setStage("reading");
-    }, 800);
+      setCoverAnimDone(true);
+    }, 2000);
   }, []);
 
   const handleBookClose = useCallback(() => {
     setStage("dark");
-    setFadeOut(false);
+    setCoverAnimDone(false);
   }, []);
 
   return (
@@ -30,21 +33,38 @@ export default function SaiWedsSai() {
       className={`relative min-h-screen overflow-hidden wand-cursor`}
       style={{ background: "#0a0604" }}
     >
+      {/* Hogwarts global background image */}
+      <div
+        className="fixed inset-0 bg-cover bg-center pointer-events-none"
+        style={{ backgroundImage: "url(/images/hogwarts-bg.jpg)", zIndex: 0 }}
+      />
+
+      {/* Global Vignette overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%)",
+          zIndex: 1,
+        }}
+      />
+
       {/* Dust particles — always visible */}
-      <DustParticles />
+      <div className="fixed inset-0 pointer-events-none z-10">
+        <DustParticles />
+      </div>
 
       {/* Wand sparkle trail */}
-      <WandCursor enabled={true} />
+      <div className="fixed inset-0 pointer-events-none z-10">
+        <WandCursor enabled={true} />
+      </div>
 
       {/* Lumos flashlight effect */}
       <LumosOverlay enabled={stage === "dark"} />
 
       {/* Stage 1 & 2: Dark Landing + Book Cover */}
-      {stage !== "reading" && (
-        <div
-          className="transition-opacity duration-1000"
-          style={{ opacity: fadeOut ? 0 : 1 }}
-        >
+      {!coverAnimDone && (
+        <div className="absolute inset-0 z-40">
           <BookCover onOpen={handleBookOpen} />
         </div>
       )}

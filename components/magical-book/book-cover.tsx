@@ -21,28 +21,11 @@ export function BookCover({ onOpen }: BookCoverProps) {
 
   function handleClick() {
     setIsOpening(true);
-    setTimeout(() => {
-      onOpen();
-    }, 2000);
+    onOpen();
   }
 
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center">
-      {/* Hogwarts background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url(/images/hogwarts-bg.jpg)" }}
-      />
-
-      {/* Vignette overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%)",
-        }}
-      />
-
       {/* Harry Potter flying — top-left corner */}
       <img
         src="/images/harry-potter-flying.png"

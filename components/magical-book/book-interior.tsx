@@ -47,12 +47,6 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col items-center justify-center p-2 md:p-3">
-      {/* ── BACKGROUND: Wooden Desk Scene ── */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url(/images/desk-scene.jpg)", zIndex: 0 }}
-      />
-
       {/* ── MAGICAL OPENING GLOW BURST ── */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -64,9 +58,10 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
         }}
       />
 
+      {/* ── MAIN BOOK CONTAINER ── */}
       <div
-        className="relative z-10 mx-auto gentle-float"
-        style={{ width: "min(2000px, 95vw)", marginTop: "-2vh" }}
+        className="relative w-[95vw] max-w-[2000px] aspect-[4/3] md:aspect-[2/1.3] preserve-3d mx-auto z-10"
+        style={{ animation: "floatBook 6s ease-in-out infinite" }}
       >
         <div>
           {/* ── OPEN BOOK using real book-pages.png as background ── */}

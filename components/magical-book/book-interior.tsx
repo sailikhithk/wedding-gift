@@ -46,130 +46,118 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
     <div className="fixed inset-0 z-30 flex flex-col items-center justify-center p-2 md:p-3">
       <HogwartsBackground />
 
-      <div className="relative z-10 mx-auto gentle-float" style={{ perspective: "2400px", width: "min(1176px, 95vw)" }}>
-        <div style={{ transformStyle: "preserve-3d", transform: "rotateX(2deg)" }}>
+      <div className="relative z-10 mx-auto gentle-float" style={{ perspective: "2400px", width: "min(1440px, 98vw)" }}>
+        <div style={{ transformStyle: "preserve-3d", transform: "rotateX(3deg)" }}>
 
-          {/* ── OUTER LEATHER BOOK FRAME ── */}
+          {/* ── OPEN BOOK using real book-pages.png as background ── */}
           <div className="relative" style={{
-            background: "linear-gradient(135deg, #4a2510 0%, #2a1205 40%, #3d1f0a 70%, #1e0d03 100%)",
-            borderRadius: "6px 12px 12px 6px",
-            padding: "clamp(12px, 2vw, 24px)",
-            boxShadow: "0 35px 90px rgba(0,0,0,0.95), -10px 0 30px rgba(0,0,0,0.7), inset 0 0 50px rgba(0,0,0,0.5)",
+            // Match the image's natural aspect ratio: 1280x706
+            width: "min(1440px, 98vw)",
+            aspectRatio: "1280/706",
+            filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.85))",
           }}>
-            {/* Gold frame lines */}
-            <div className="absolute inset-2 rounded pointer-events-none" style={{ border: "1px solid rgba(201,168,76,0.35)" }} />
-            <div className="absolute inset-3 rounded pointer-events-none" style={{ border: "1px solid rgba(201,168,76,0.15)" }} />
-            {/* Corner ornaments */}
-            {["top-2 left-2","top-2 right-2 rotate-90","bottom-2 left-2 -rotate-90","bottom-2 right-2 rotate-180"].map((p,i)=>(
-              <div key={i} className={`absolute ${p} pointer-events-none`}>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path d="M2 2 L2 11 Q2 2 11 2" stroke="rgba(201,168,76,0.55)" strokeWidth="1.5"/>
-                  <circle cx="2.5" cy="2.5" r="1.2" fill="rgba(201,168,76,0.45)"/>
-                </svg>
-              </div>
-            ))}
+            {/* The real book image as background */}
+            <img
+              src="/images/book-pages.png"
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              style={{ objectFit: "fill", zIndex: 1 }}
+            />
 
-            {/* ── TWO-PAGE SPREAD ── */}
-            <div className="relative flex" style={{
-              height: "min(593px, 78vw)",
-              borderRadius: "2px 8px 8px 2px",
-              overflow: "visible",
+            {/* ── LEFT PAGE CONTENT AREA ──
+                Pixel-accurate: x=18.7%–49.4%, y=13.9%–75.2%
+            ── */}
+            <div className="absolute overflow-hidden" style={{
+              left: "18.7%", right: "50.6%",
+              top: "13.9%", bottom: "24.8%",
+              zIndex: 2,
             }}>
-              {/* LEFT PAGE — clicking its left brown border = previous / close */}
-              <div
-                className="relative flex-1"
-                style={{
-                  background: "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 40%, #d8be88 100%)",
-                  overflow: "visible",
-                }}
-              >
-                <PageTexture />
-                <LeftPage chapter={cur} />
-                {/* Left border click zone → previous / close */}
-                <div
-                  onClick={canGoBack ? () => turnPage("back") : onClose}
-                  className="absolute top-0 bottom-0 left-0 z-40"
-                  style={{ width: "clamp(12px, 2vw, 24px)", cursor: "inherit" }}
-                  title={canGoBack ? "Previous chapter" : "Close book"}
-                />
-                <div className="absolute top-0 right-0 bottom-0 w-10 pointer-events-none" style={{
-                  background: "linear-gradient(to left, rgba(0,0,0,0.2) 0%, transparent 100%)",
-                }} />
-              </div>
+              <LeftPage chapter={cur} />
+            </div>
 
-              {/* RIGHT PAGE — clicking its right brown border = next */}
-              <div
-                className="relative flex-1 overflow-hidden"
-                style={{
-                  background: "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 40%, #d0b882 100%)",
-                }}
-              >
-                <PageTexture />
-                <RightPage chapter={cur} onExpandVideo={() => setExpandedVideo(true)} />
-                {/* Right border click zone → next */}
-                {canGoForward && (
-                  <div
-                    onClick={() => turnPage("forward")}
-                    className="absolute top-0 bottom-0 right-0 z-40"
-                    style={{ width: "clamp(12px, 2vw, 24px)", cursor: "inherit" }}
-                    title="Next chapter"
-                  />
-                )}
-                <div className="absolute top-0 left-0 bottom-0 w-10 pointer-events-none" style={{
-                  background: "linear-gradient(to right, rgba(0,0,0,0.16) 0%, transparent 100%)",
-                }} />
-              </div>
+            {/* ── RIGHT PAGE CONTENT AREA ──
+                Pixel-accurate: x=50.5%–81.5%, y=13.9%–74.8%
+            ── */}
+            <div className="absolute overflow-hidden" style={{
+              left: "50.6%", right: "18.5%",
+              top: "13.9%", bottom: "25.2%",
+              zIndex: 2,
+            }}>
+              <RightPage chapter={cur} onExpandVideo={() => setExpandedVideo(true)} />
+            </div>
 
-              {/* FLIPPING LEAF */}
-              {isPageTurning && (
-                <div className="absolute top-0 bottom-0" style={{
-                  left: turnDirection === "forward" ? "50%" : "0",
-                  width: "50%",
-                  transformStyle: "preserve-3d",
-                  transformOrigin: turnDirection === "forward" ? "left center" : "right center",
-                  animation: turnDirection === "forward"
-                    ? "flipForward 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards"
-                    : "flipBack 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards",
-                  zIndex: 30,
+            {/* ── CLICK ZONES: brown page stack edges ── */}
+            {/* Left stack (0–18.7%) → previous / close */}
+            <div
+              onClick={canGoBack ? () => turnPage("back") : onClose}
+              className="absolute top-0 bottom-0 left-0 z-10"
+              style={{ width: "18.7%", cursor: "inherit" }}
+              title={canGoBack ? "Previous chapter" : "Close book"}
+            />
+            {/* Right stack (81.5%–100%) → next */}
+            {canGoForward && (
+              <div
+                onClick={() => turnPage("forward")}
+                className="absolute top-0 bottom-0 right-0 z-10"
+                style={{ width: "18.5%", cursor: "inherit" }}
+                title="Next chapter"
+              />
+            )}
+
+            {/* ── FLIPPING LEAF (covers half the book) ── */}
+            {isPageTurning && (
+              <div className="absolute" style={{
+                left: turnDirection === "forward" ? "50%" : "0",
+                right: turnDirection === "forward" ? "0" : "50%",
+                top: 0, bottom: 0,
+                transformStyle: "preserve-3d",
+                transformOrigin: turnDirection === "forward" ? "left center" : "right center",
+                animation: turnDirection === "forward"
+                  ? "flipForward 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards"
+                  : "flipBack 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards",
+                zIndex: 30,
+              }}>
+                {/* Front face */}
+                <div className="absolute inset-0 overflow-hidden" style={{
+                  background: "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 50%, #d8be88 100%)",
+                  backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
                 }}>
-                  <div className="absolute inset-0 overflow-hidden" style={{
-                    background: "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 50%, #d8be88 100%)",
-                    backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
-                    borderRadius: turnDirection === "forward" ? "0 8px 8px 0" : "2px 0 0 2px",
+                  <PageTexture />
+                  <div className="absolute inset-0 pointer-events-none" style={{
+                    background: turnDirection === "forward"
+                      ? "linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 50%)"
+                      : "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%)",
+                  }} />
+                  <div className="absolute" style={{
+                    left: turnDirection === "forward" ? "3%" : "3%",
+                    right: turnDirection === "forward" ? "3%" : "3%",
+                    top: "14%", bottom: "14%",
                   }}>
-                    <PageTexture />
-                    <div className="absolute inset-0 pointer-events-none" style={{
-                      background: turnDirection === "forward"
-                        ? "linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 50%)"
-                        : "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%)",
-                    }} />
                     {turnDirection === "forward"
                       ? <RightPage chapter={cur} onExpandVideo={() => {}} />
                       : <LeftPage chapter={cur} />}
                   </div>
-                  <div className="absolute inset-0 overflow-hidden" style={{
-                    background: "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 50%, #d0b882 100%)",
-                    backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
-                    transform: "rotateY(180deg)",
-                    borderRadius: turnDirection === "forward" ? "2px 0 0 2px" : "0 8px 8px 0",
-                  }}>
-                    <PageTexture />
-                    <div style={{ transform: "scaleX(-1)", height: "100%" }}>
+                </div>
+                {/* Back face */}
+                <div className="absolute inset-0 overflow-hidden" style={{
+                  background: "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 50%, #d0b882 100%)",
+                  backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
+                  transform: "rotateY(180deg)",
+                }}>
+                  <PageTexture />
+                  <div style={{ transform: "scaleX(-1)", height: "100%" }}>
+                    <div className="absolute" style={{
+                      left: "3%", right: "3%", top: "14%", bottom: "14%",
+                    }}>
                       {turnDirection === "forward"
                         ? <LeftPage chapter={nxt} />
                         : <RightPage chapter={nxt} onExpandVideo={() => {}} />}
                     </div>
                   </div>
                 </div>
-              )}
-
-              {/* Spine */}
-              <div className="absolute top-0 bottom-0 pointer-events-none" style={{
-                left: "50%", transform: "translateX(-50%)",
-                width: "10px", zIndex: 20,
-                background: "linear-gradient(to right, rgba(0,0,0,0.35), rgba(25,10,2,0.95), rgba(0,0,0,0.35))",
-              }} />
-            </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -257,24 +245,6 @@ function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCa
   )
 }
 
-/** Quill + ink bottle — real feather image straddling the spine */
-function QuillInk({ style }: { style?: React.CSSProperties }) {
-  return (
-    <div className="pointer-events-none select-none" style={{ ...style, position: "absolute" }}>
-      <img
-        src="/images/feather.png"
-        alt="quill feather"
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.45))",
-        }}
-      />
-    </div>
-  )
-}
-
 /** Wax seal */
 function WaxSeal({ style }: { style?: React.CSSProperties }) {
   return (
@@ -313,24 +283,6 @@ function Sparkles({ count=6, seed=0 }: { count?:number, seed?:number }) {
   )
 }
 
-/** Footprint trail */
-function Footprints({ style }: { style?: React.CSSProperties }) {
-  return (
-    <div className="pointer-events-none select-none" style={{ ...style, position:"absolute" }}>
-      {[0,1,2,3,4].map(i=>(
-        <div key={i} style={{
-          position:"absolute",
-          left: `${i*12 + (i%2)*6}px`,
-          top: `${i*8}px`,
-          width:"8px", height:"12px",
-          borderRadius:"50% 50% 40% 40%",
-          background:"rgba(100,65,20,0.2)",
-          transform:`rotate(${i%2===0?-15:15}deg)`,
-        }}/>
-      ))}
-    </div>
-  )
-}
 
 // ── Page content components ──
 

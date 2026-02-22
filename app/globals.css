@@ -325,3 +325,12 @@
 .ink-reveal {
   animation: inkReveal 2s ease-out forwards;
 }
+
+/* Open book curved shape — matches reference book-pages.png */
+.book-spread-curved {
+  border-radius: 6% 6% 6% 6% / 10% 10% 10% 10%;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(60,30,5,0.4),
+    inset 0 1px 0 rgba(255,220,150,0.15);
+}

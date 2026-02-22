@@ -46,13 +46,12 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
     <div className="fixed inset-0 z-30 flex flex-col items-center justify-center p-2 md:p-3">
       <HogwartsBackground />
 
-      <div className="relative z-10 mx-auto gentle-float" style={{ perspective: "2400px", width: "min(1440px, 98vw)" }}>
-        <div style={{ transformStyle: "preserve-3d", transform: "rotateX(3deg)" }}>
+      <div className="relative z-10 mx-auto gentle-float" style={{ width: "min(1716px, 99vw)" }}>
+        <div>
 
           {/* ── OPEN BOOK using real book-pages.png as background ── */}
           <div className="relative" style={{
-            // Match the image's natural aspect ratio: 1280x706
-            width: "min(1440px, 98vw)",
+            width: "min(1716px, 99vw)",
             aspectRatio: "1280/706",
             filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.85))",
           }}>
@@ -69,9 +68,11 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                 Pixel-accurate: x=18.7%–49.4%, y=13.9%–75.2%
             ── */}
             <div className="absolute overflow-hidden" style={{
-              left: "18.7%", right: "50.6%",
+              left: "21%", right: "52%",
               top: "13.9%", bottom: "24.8%",
               zIndex: 2,
+              transform: "skewY(-1.8deg)",
+              transformOrigin: "center top",
             }}>
               <LeftPage chapter={cur} />
             </div>
@@ -80,9 +81,11 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                 Pixel-accurate: x=50.5%–81.5%, y=13.9%–74.8%
             ── */}
             <div className="absolute overflow-hidden" style={{
-              left: "50.6%", right: "18.5%",
+              left: "52%", right: "21%",
               top: "13.9%", bottom: "25.2%",
               zIndex: 2,
+              transform: "skewY(1.8deg)",
+              transformOrigin: "center top",
             }}>
               <RightPage chapter={cur} onExpandVideo={() => setExpandedVideo(true)} />
             </div>

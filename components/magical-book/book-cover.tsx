@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface BookCoverProps {
   onOpen: () => void;
@@ -70,48 +70,49 @@ export function BookCover({ onOpen }: BookCoverProps) {
         >
           <button
             onClick={handleClick}
-          disabled={isOpening}
-          className="relative block focus:outline-none group"
-          aria-label="Open the magical book"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: "rotateX(8deg) rotateY(-12deg)",
-            width: "min(600px, 85vw)",
-            aspectRatio: "3/4",
-          }}
-        >
-          {/* === FRONT COVER BUTTON === */}
-          <div
-            className="absolute inset-0"
+            disabled={isOpening}
+            className="relative block focus:outline-none group"
+            aria-label="Open the magical book"
             style={{
               transformStyle: "preserve-3d",
-              transform: "translateZ(0px)",
-              filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.8))",
+              transform: "rotateX(8deg) rotateY(-12deg)",
+              width: "min(1500px, 92vw)",
+              aspectRatio: "3/4",
             }}
           >
-            <img
-              src="/images/book.png"
-              alt="Sai Weds Sai book cover"
-              className="absolute inset-0 w-full h-full"
-              style={{ objectFit: "contain" }}
-            />
-          </div>
+            {/* === FRONT COVER BUTTON === */}
+            <div
+              className="absolute inset-0"
+              style={{
+                transformStyle: "preserve-3d",
+                transform: "translateZ(0px)",
+                filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.8))",
+              }}
+            >
+              <img
+                src="/images/book.png"
+                alt="Sai Weds Sai book cover"
+                className="absolute inset-0 w-full h-full"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
 
-          {/* Ground shadow beneath the book */}
-          <div
-            className="absolute"
-            style={{
-              width: "100%",
-              height: "40px",
-              bottom: "-30px",
-              left: "50%",
-              transform: "translateX(-50%) rotateX(80deg)",
-              background:
-                "radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)",
-              filter: "blur(6px)",
-            }}
-          />
-        </button>
+            {/* Ground shadow beneath the book */}
+            <div
+              className="absolute"
+              style={{
+                width: "100%",
+                height: "40px",
+                bottom: "-30px",
+                left: "50%",
+                transform: "translateX(-50%) rotateX(80deg)",
+                background:
+                  "radial-gradient(ellipse, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.2) 50%, transparent 80%)",
+                filter: "blur(6px)",
+              }}
+            />
+          </button>
+        </div>
       </div>
 
       {/* Whisper text */}

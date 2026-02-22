@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react";
 
 interface LumosOverlayProps {
-  enabled: boolean
+  enabled: boolean;
 }
 
 export function LumosOverlay({ enabled }: LumosOverlayProps) {
-  const overlayRef = useRef<HTMLDivElement>(null)
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!enabled) return
+    if (!enabled) return;
 
-    const overlay = overlayRef.current
-    if (!overlay) return
+    const overlay = overlayRef.current;
+    if (!overlay) return;
 
     function handleMove(e: MouseEvent) {
-      overlay!.style.setProperty("--mouse-x", `${e.clientX}px`)
-      overlay!.style.setProperty("--mouse-y", `${e.clientY}px`)
+      overlay!.style.setProperty("--mouse-x", `${e.clientX}px`);
+      overlay!.style.setProperty("--mouse-y", `${e.clientY}px`);
     }
 
-    window.addEventListener("mousemove", handleMove)
-    return () => window.removeEventListener("mousemove", handleMove)
-  }, [enabled])
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, [enabled]);
 
-  if (!enabled) return null
+  if (!enabled) return null;
 
   return (
     <div
@@ -35,5 +35,5 @@ export function LumosOverlay({ enabled }: LumosOverlayProps) {
         ["--mouse-y" as string]: "50%",
       }}
     />
-  )
+  );
 }

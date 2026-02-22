@@ -1,70 +1,83 @@
-"use client"
+"use client";
 
-import { useState, useCallback } from "react"
-import { chapters } from "@/lib/chapters"
-import { VideoModal } from "./video-modal"
-import { HogwartsBackground } from "./hogwarts-background"
+import { useState, useCallback } from "react";
+import { chapters } from "@/lib/chapters";
+import { VideoModal } from "./video-modal";
+import { HogwartsBackground } from "./hogwarts-background";
 
 interface BookInteriorProps {
-  visible: boolean
-  onClose: () => void
+  visible: boolean;
+  onClose: () => void;
 }
 
 export function BookInterior({ visible, onClose }: BookInteriorProps) {
-  const [currentChapter, setCurrentChapter] = useState(0)
-  const [isPageTurning, setIsPageTurning] = useState(false)
-  const [turnDirection, setTurnDirection] = useState<"forward" | "back">("forward")
-  const [nextChapter, setNextChapter] = useState(0)
-  const [expandedVideo, setExpandedVideo] = useState(false)
+  const [currentChapter, setCurrentChapter] = useState(0);
+  const [isPageTurning, setIsPageTurning] = useState(false);
+  const [turnDirection, setTurnDirection] = useState<"forward" | "back">(
+    "forward",
+  );
+  const [nextChapter, setNextChapter] = useState(0);
+  const [expandedVideo, setExpandedVideo] = useState(false);
 
-  const canGoForward = currentChapter < chapters.length - 1
-  const canGoBack = currentChapter > 0
+  const canGoForward = currentChapter < chapters.length - 1;
+  const canGoBack = currentChapter > 0;
 
   const turnPage = useCallback(
     (direction: "forward" | "back") => {
-      if (isPageTurning) return
-      if (direction === "forward" && !canGoForward) return
-      if (direction === "back" && !canGoBack) return
-      const next = direction === "forward" ? currentChapter + 1 : currentChapter - 1
-      setNextChapter(next)
-      setTurnDirection(direction)
-      setIsPageTurning(true)
+      if (isPageTurning) return;
+      if (direction === "forward" && !canGoForward) return;
+      if (direction === "back" && !canGoBack) return;
+      const next =
+        direction === "forward" ? currentChapter + 1 : currentChapter - 1;
+      setNextChapter(next);
+      setTurnDirection(direction);
+      setIsPageTurning(true);
       setTimeout(() => {
-        setCurrentChapter(next)
-        setIsPageTurning(false)
-      }, 900)
+        setCurrentChapter(next);
+        setIsPageTurning(false);
+      }, 900);
     },
-    [isPageTurning, canGoForward, canGoBack, currentChapter]
-  )
+    [isPageTurning, canGoForward, canGoBack, currentChapter],
+  );
 
-  if (!visible) return null
+  if (!visible) return null;
 
-  const cur = chapters[currentChapter]
-  const nxt = chapters[nextChapter]
+  const cur = chapters[currentChapter];
+  const nxt = chapters[nextChapter];
 
   return (
     <div className="fixed inset-0 z-30 flex flex-col items-center justify-center p-2 md:p-3">
       {/* ── BACKGROUND: Wooden Desk Scene ── */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url(/images/desk-scene.jpg)", zIndex: 0 }} />
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url(/images/desk-scene.jpg)", zIndex: 0 }}
+      />
 
       {/* ── MAGICAL OPENING GLOW BURST ── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse 60% 40% at 50% 52%, rgba(255,220,100,0.55) 0%, rgba(201,168,76,0.25) 35%, transparent 70%)",
+          background:
+            "radial-gradient(ellipse 60% 40% at 50% 52%, rgba(255,220,100,0.55) 0%, rgba(201,168,76,0.25) 35%, transparent 70%)",
           animation: "bookOpenGlow 2.5s ease-out forwards",
           zIndex: 5,
         }}
       />
 
-      <div className="relative z-10 mx-auto gentle-float" style={{ width: "min(2000px, 95vw)", marginTop: "-2vh" }}>
+      <div
+        className="relative z-10 mx-auto gentle-float"
+        style={{ width: "min(2000px, 95vw)", marginTop: "-2vh" }}
+      >
         <div>
           {/* ── OPEN BOOK using real book-pages.png as background ── */}
-          <div className="relative" style={{
-            width: "100%",
-            aspectRatio: "1280/706",
-            filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.85))",
-          }}>
+          <div
+            className="relative"
+            style={{
+              width: "100%",
+              aspectRatio: "1280/706",
+              filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.85))",
+            }}
+          >
             {/* Real book image */}
             <img
               src="/images/book-pages.png"
@@ -75,25 +88,39 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
             />
 
             {/* ── LEFT PAGE CONTENT (text only, no decorations) ── */}
-            <div className="absolute overflow-hidden" style={{
-              left: "21%", right: "52%",
-              top: "13.9%", bottom: "26%",
-              zIndex: 2,
-              transform: "skewY(-3.5deg)",
-              transformOrigin: "center top",
-            }}>
+            <div
+              className="absolute overflow-hidden"
+              style={{
+                left: "21%",
+                right: "52%",
+                top: "13.9%",
+                bottom: "26%",
+                zIndex: 2,
+                transform: "skewY(-3.5deg)",
+                transformOrigin: "center top",
+                paddingBottom: "18%", // Extra padding for feather/ink
+              }}
+            >
               <LeftPage chapter={cur} />
             </div>
 
             {/* ── RIGHT PAGE CONTENT (text only, no decorations) ── */}
-            <div className="absolute overflow-hidden" style={{
-              left: "52%", right: "21%",
-              top: "13.9%", bottom: "26%",
-              zIndex: 2,
-              transform: "skewY(3.5deg)",
-              transformOrigin: "center top",
-            }}>
-              <RightPage chapter={cur} onExpandVideo={() => setExpandedVideo(true)} />
+            <div
+              className="absolute overflow-hidden"
+              style={{
+                left: "52%",
+                right: "21%",
+                top: "13.9%",
+                bottom: "26%",
+                zIndex: 2,
+                transform: "skewY(3.5deg)",
+                transformOrigin: "center top",
+              }}
+            >
+              <RightPage
+                chapter={cur}
+                onExpandVideo={() => setExpandedVideo(true)}
+              />
             </div>
 
             {/* ── FEATHER — placed on the left page bottom ── */}
@@ -102,7 +129,8 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               alt="quill feather"
               className="absolute pointer-events-none"
               style={{
-                bottom: "32%", left: "32%",
+                bottom: "32%",
+                left: "32%",
                 width: "18%",
                 transform: "rotate(-25deg)",
                 transformOrigin: "80% 80%",
@@ -117,7 +145,8 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               alt="ink bottle"
               className="absolute pointer-events-none"
               style={{
-                bottom: "30%", left: "42%",
+                bottom: "30%",
+                left: "42%",
                 width: "4%",
                 filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.6))",
                 zIndex: 11,
@@ -130,7 +159,8 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               alt="wax seal"
               className="absolute pointer-events-none"
               style={{
-                bottom: "28%", left: "52%",
+                bottom: "28%",
+                left: "52%",
                 width: "6%",
                 filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.5))",
                 zIndex: 10,
@@ -156,44 +186,99 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
 
             {/* ── FLIPPING LEAF ── */}
             {isPageTurning && (
-              <div className="absolute" style={{
-                left: turnDirection === "forward" ? "50%" : "0",
-                right: turnDirection === "forward" ? "0" : "50%",
-                top: 0, bottom: 0,
-                transformStyle: "preserve-3d",
-                transformOrigin: turnDirection === "forward" ? "left center" : "right center",
-                animation: turnDirection === "forward"
-                  ? "flipForward 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards"
-                  : "flipBack 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards",
-                zIndex: 30,
-              }}>
-                <div className="absolute inset-0 overflow-hidden" style={{
-                  background: "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 50%, #d8be88 100%)",
-                  backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
-                }}>
-                  <PageTexture />
-                  <div className="absolute inset-0 pointer-events-none" style={{
-                    background: turnDirection === "forward"
-                      ? "linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 50%)"
-                      : "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%)",
-                  }} />
-                  <div className="absolute" style={{ left:"3%", right:"3%", top:"14%", bottom:"14%" }}>
-                    {turnDirection === "forward"
-                      ? <RightPage chapter={cur} onExpandVideo={() => {}} />
-                      : <LeftPage chapter={cur} />}
+              <div
+                className="absolute z-30"
+                style={{
+                  left: "21%",
+                  right: "21%",
+                  top: "13.9%",
+                  bottom: "26%",
+                  perspective: "2000px",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    left: turnDirection === "forward" ? "50%" : "0",
+                    right: turnDirection === "forward" ? "0" : "50%",
+                    top: 0,
+                    bottom: 0,
+                    transformStyle: "preserve-3d",
+                    transformOrigin:
+                      turnDirection === "forward"
+                        ? "left center"
+                        : "right center",
+                    animation:
+                      turnDirection === "forward"
+                        ? "pageTurnForward 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards"
+                        : "pageTurnBack 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards",
+                  }}
+                >
+                  <div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 50%, #d8be88 100%)",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      borderRight:
+                        turnDirection === "forward"
+                          ? "1px solid rgba(0,0,0,0.1)"
+                          : "none",
+                      borderLeft:
+                        turnDirection === "back"
+                          ? "1px solid rgba(0,0,0,0.1)"
+                          : "none",
+                    }}
+                  >
+                    <PageTexture />
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          turnDirection === "forward"
+                            ? "linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 50%)"
+                            : "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%)",
+                      }}
+                    />
+                    <div
+                      className="absolute"
+                      style={{
+                        left: "3%",
+                        right: "3%",
+                        top: "14%",
+                        bottom: "14%",
+                      }}
+                    >
+                      {turnDirection === "forward" ? (
+                        <RightPage chapter={cur} onExpandVideo={() => {}} />
+                      ) : (
+                        <LeftPage chapter={cur} />
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="absolute inset-0 overflow-hidden" style={{
-                  background: "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 50%, #d0b882 100%)",
-                  backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg)",
-                }}>
-                  <PageTexture />
-                  <div style={{ transform: "scaleX(-1)", height: "100%" }}>
-                    <div className="absolute" style={{ left:"3%", right:"3%", top:"14%", bottom:"14%" }}>
-                      {turnDirection === "forward"
-                        ? <LeftPage chapter={nxt} />
-                        : <RightPage chapter={nxt} onExpandVideo={() => {}} />}
+                  <div
+                    className="absolute inset-0 overflow-hidden"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 50%, #d0b882 100%)",
+                      backfaceVisibility: "hidden",
+                      WebkitBackfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                    }}
+                  >
+                    <PageTexture />
+                    <div className="w-full h-full">
+                      <div
+                        className="w-full h-full"
+                        style={{ padding: "5%", paddingBottom: "18%" }}
+                      >
+                        {turnDirection === "forward" ? (
+                          <LeftPage chapter={nxt} />
+                        ) : (
+                          <RightPage chapter={nxt} onExpandVideo={() => {}} />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -206,23 +291,36 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
         <div className="flex items-center justify-center mt-3 px-1">
           <div className="flex items-center gap-2">
             {chapters.map((_, i) => (
-              <div key={i} onClick={() => !isPageTurning && setCurrentChapter(i)}
+              <div
+                key={i}
+                onClick={() => !isPageTurning && setCurrentChapter(i)}
                 className="cursor-pointer transition-all duration-500"
                 style={{
-                  width: i === currentChapter ? "22px" : "6px", height: "6px", borderRadius: "3px",
-                  background: i === currentChapter ? "#c9a84c" : "rgba(201,168,76,0.25)",
-                }} />
+                  width: i === currentChapter ? "22px" : "6px",
+                  height: "6px",
+                  borderRadius: "3px",
+                  background:
+                    i === currentChapter ? "#c9a84c" : "rgba(201,168,76,0.25)",
+                }}
+              />
             ))}
           </div>
         </div>
-        <p className="text-center font-serif text-xs mt-1" style={{ color: "rgba(201,168,76,0.35)" }}>
+        <p
+          className="text-center font-serif text-xs mt-1"
+          style={{ color: "rgba(201,168,76,0.35)" }}
+        >
           Chapter {currentChapter + 1} of {chapters.length}
         </p>
       </div>
 
-      <VideoModal isOpen={expandedVideo} onClose={() => setExpandedVideo(false)} chapter={cur} />
+      <VideoModal
+        isOpen={expandedVideo}
+        onClose={() => setExpandedVideo(false)}
+        chapter={cur}
+      />
     </div>
-  )
+  );
 }
 
 // ── Shared decorative helpers ──
@@ -230,26 +328,54 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
 function PageTexture() {
   return (
     <>
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: "radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(70,38,8,0.13) 100%)",
-      }} />
-      <div className="absolute top-0 left-0 right-0 h-6 pointer-events-none" style={{
-        background: "linear-gradient(to bottom, rgba(50,25,5,0.18), transparent)",
-      }} />
-      <div className="absolute bottom-0 left-0 right-0 h-6 pointer-events-none" style={{
-        background: "linear-gradient(to top, rgba(50,25,5,0.18), transparent)",
-      }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(70,38,8,0.13) 100%)",
+        }}
+      />
+      <div
+        className="absolute top-0 left-0 right-0 h-6 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(50,25,5,0.18), transparent)",
+        }}
+      />
+      <div
+        className="absolute bottom-0 left-0 right-0 h-6 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(50,25,5,0.18), transparent)",
+        }}
+      />
     </>
-  )
+  );
 }
 
-function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCaption?:string, placeholder:string }) {
+function PhotoFrame({
+  gifUrl,
+  gifCaption,
+  placeholder,
+}: {
+  gifUrl?: string;
+  gifCaption?: string;
+  placeholder: string;
+}) {
   return (
-    <div className="relative mx-auto" style={{ aspectRatio: "450/640", width: "100%" }}>
-      <div className="absolute overflow-hidden" style={{
-        top: "8.9%", bottom: "8.8%",
-        left: "11.8%", right: "11.3%",
-      }}>
+    <div
+      className="relative mx-auto"
+      style={{ aspectRatio: "450/640", width: "100%" }}
+    >
+      <div
+        className="absolute overflow-hidden"
+        style={{
+          top: "8.9%",
+          bottom: "8.8%",
+          left: "11.8%",
+          right: "11.3%",
+        }}
+      >
         {gifUrl ? (
           <img
             src={gifUrl}
@@ -258,62 +384,109 @@ function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCa
             style={{ filter: "sepia(0.35) contrast(1.05) brightness(0.95)" }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center" style={{
-            background: "linear-gradient(135deg, #3d2a14, #2a1a0a)",
-          }}>
-            <span className="font-serif text-xs text-center px-3" style={{ color: "rgba(201,168,76,0.4)" }}>
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #3d2a14, #2a1a0a)",
+            }}
+          >
+            <span
+              className="font-serif text-xs text-center px-3"
+              style={{ color: "rgba(201,168,76,0.4)" }}
+            >
               {placeholder}
             </span>
           </div>
         )}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: "radial-gradient(ellipse at center, transparent 55%, rgba(20,10,2,0.3) 100%)",
-        }} />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, transparent 55%, rgba(20,10,2,0.3) 100%)",
+          }}
+        />
       </div>
       <img
         src="/images/phot-frame-cropped.png"
         alt="ornate frame"
         className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ objectFit: "fill", filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.55))" }}
+        style={{
+          objectFit: "fill",
+          filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.55))",
+        }}
       />
     </div>
-  )
+  );
 }
 
 function WaxSeal({ style }: { style?: React.CSSProperties }) {
   return (
-    <div className="pointer-events-none select-none" style={{ ...style, position: "absolute" }}>
+    <div
+      className="pointer-events-none select-none"
+      style={{ ...style, position: "absolute" }}
+    >
       <svg width="72" height="72" viewBox="0 0 44 44" fill="none">
-        <circle cx="22" cy="22" r="20" fill="#8b2500" stroke="rgba(201,168,76,0.6)" strokeWidth="1.5"/>
-        <circle cx="22" cy="22" r="15" fill="none" stroke="rgba(201,168,76,0.4)" strokeWidth="0.8"/>
-        <text x="22" y="27" textAnchor="middle" fontSize="14" fontFamily="serif" fill="rgba(201,168,76,0.9)" fontWeight="bold">H</text>
+        <circle
+          cx="22"
+          cy="22"
+          r="20"
+          fill="#8b2500"
+          stroke="rgba(201,168,76,0.6)"
+          strokeWidth="1.5"
+        />
+        <circle
+          cx="22"
+          cy="22"
+          r="15"
+          fill="none"
+          stroke="rgba(201,168,76,0.4)"
+          strokeWidth="0.8"
+        />
+        <text
+          x="22"
+          y="27"
+          textAnchor="middle"
+          fontSize="14"
+          fontFamily="serif"
+          fill="rgba(201,168,76,0.9)"
+          fontWeight="bold"
+        >
+          H
+        </text>
       </svg>
     </div>
-  )
+  );
 }
 
-function Sparkles({ count=6, seed=0 }: { count?:number, seed?:number }) {
-  const items = Array.from({length:count},(_,i)=>({
-    x: 5 + ((i*37+seed*13)%85),
-    y: 5 + ((i*53+seed*17)%85),
-    s: 0.5 + (i%3)*0.5,
-    o: 0.2 + (i%4)*0.1,
-  }))
+function Sparkles({ count = 6, seed = 0 }: { count?: number; seed?: number }) {
+  const items = Array.from({ length: count }, (_, i) => ({
+    x: 5 + ((i * 37 + seed * 13) % 85),
+    y: 5 + ((i * 53 + seed * 17) % 85),
+    s: 0.5 + (i % 3) * 0.5,
+    o: 0.2 + (i % 4) * 0.1,
+  }));
   return (
     <div className="absolute inset-0 pointer-events-none">
-      {items.map((sp,i)=>(
-        <div key={i} className="absolute star-twinkle" style={{
-          left:`${sp.x}%`, top:`${sp.y}%`,
-          width:`${sp.s*4}px`, height:`${sp.s*4}px`,
-          background:"radial-gradient(circle, rgba(255,240,180,0.9) 0%, transparent 70%)",
-          borderRadius:"50%",
-          opacity: sp.o,
-          animationDuration:`${2+i*0.7}s`,
-          animationDelay:`${i*0.4}s`,
-        }}/>
+      {items.map((sp, i) => (
+        <div
+          key={i}
+          className="absolute star-twinkle"
+          style={{
+            left: `${sp.x}%`,
+            top: `${sp.y}%`,
+            width: `${sp.s * 4}px`,
+            height: `${sp.s * 4}px`,
+            background:
+              "radial-gradient(circle, rgba(255,240,180,0.9) 0%, transparent 70%)",
+            borderRadius: "50%",
+            opacity: sp.o,
+            animationDuration: `${2 + i * 0.7}s`,
+            animationDelay: `${i * 0.4}s`,
+          }}
+        />
       ))}
     </div>
-  )
+  );
 }
 
 // ── Marauder's Map footprints ──
@@ -368,7 +541,7 @@ function MaraudersFootprints() {
     { x: 62.5, y: 78, rot: 150, left: true },
     { x: 59, y: 81, rot: 165, left: false },
     { x: 55, y: 84, rot: 175, left: true },
-  ]
+  ];
 
   return (
     <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
@@ -385,12 +558,13 @@ function MaraudersFootprints() {
             transform: `rotate(${p.rot}deg) scaleX(${p.left ? 1 : -1})`,
             opacity: 0.28,
             animation: `footAppear 0.3s ease-out ${i * 0.18}s both`,
-            filter: "sepia(1) hue-rotate(-50deg) saturate(3) brightness(0.4) opacity(0.7)",
+            filter:
+              "sepia(1) hue-rotate(-50deg) saturate(3) brightness(0.4) opacity(0.7)",
           }}
         />
       ))}
     </div>
-  )
+  );
 }
 
 // ── Page content components ──
@@ -402,55 +576,130 @@ function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
 
       {/* Chapter title */}
       <div className="px-5 pt-4 pb-1 text-center">
-        <h2 className="font-harry text-2xl md:text-3xl leading-tight" style={{ color:"#2a1505" }}>
+        <h2
+          className="font-harry text-2xl md:text-3xl leading-tight"
+          style={{ color: "#2a1505" }}
+        >
           Chapter {chapter.id}: {chapter.title}
         </h2>
-        <p className="font-harry text-lg mt-0.5" style={{ color:"#7a5020" }}>
+        <p className="font-harry text-lg mt-0.5" style={{ color: "#7a5020" }}>
           ({chapter.subtitle})
         </p>
         <div className="flex items-center gap-2 mt-1">
-          <div className="h-px flex-1" style={{ background:"linear-gradient(to right, transparent, rgba(100,65,20,0.4))" }}/>
-          <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z" fill="rgba(139,100,30,0.5)"/></svg>
-          <div className="h-px flex-1" style={{ background:"linear-gradient(to left, transparent, rgba(100,65,20,0.4))" }}/>
+          <div
+            className="h-px flex-1"
+            style={{
+              background:
+                "linear-gradient(to right, transparent, rgba(100,65,20,0.4))",
+            }}
+          />
+          <svg width="8" height="8" viewBox="0 0 10 10">
+            <path
+              d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z"
+              fill="rgba(139,100,30,0.5)"
+            />
+          </svg>
+          <div
+            className="h-px flex-1"
+            style={{
+              background:
+                "linear-gradient(to left, transparent, rgba(100,65,20,0.4))",
+            }}
+          />
         </div>
       </div>
 
       {/* Text with frame floated right */}
       <div className="px-4 md:px-5" style={{ lineHeight: 0 }}>
-        <div style={{ float:"right", width:"42%", marginLeft:"10px", marginBottom:"8px", lineHeight:1 }}>
-          <PhotoFrame gifUrl={chapter.gifUrl} gifCaption={chapter.gifCaption} placeholder={chapter.videoPlaceholder} />
+        <div
+          style={{
+            float: "right",
+            width: "42%",
+            marginLeft: "10px",
+            marginBottom: "8px",
+            lineHeight: 1,
+          }}
+        >
+          <PhotoFrame
+            gifUrl={chapter.gifUrl}
+            gifCaption={chapter.gifCaption}
+            placeholder={chapter.videoPlaceholder}
+          />
         </div>
-        <p className="font-harry text-xl" style={{ color:"#2e1a08", textAlign:"justify", lineHeight:"1.4", display:"block", letterSpacing: "1px" }}>
+        <p
+          className="font-harry text-xl pb-16"
+          style={{
+            color: "#2e1a08",
+            textAlign: "justify",
+            lineHeight: "1.4",
+            display: "block",
+            letterSpacing: "1px",
+          }}
+        >
           {chapter.storyText}
         </p>
-        <div style={{ clear:"both" }} />
+        <div style={{ clear: "both" }} />
       </div>
 
       {/* Page number */}
-      <div className="absolute bottom-2 left-0 right-0 flex justify-center" style={{ zIndex: 2 }}>
-        <span className="font-harry text-xl" style={{ color:"rgba(100,65,20,0.6)" }}>{chapter.id * 2 - 1}</span>
+      <div
+        className="absolute bottom-2 left-0 right-0 flex justify-center"
+        style={{ zIndex: 2 }}
+      >
+        <span
+          className="font-harry text-xl"
+          style={{ color: "rgba(100,65,20,0.6)" }}
+        >
+          {chapter.id * 2 - 1}
+        </span>
       </div>
     </div>
-  )
+  );
 }
 
-function RightPage({ chapter, onExpandVideo }: { chapter: (typeof chapters)[0], onExpandVideo: () => void }) {
+function RightPage({
+  chapter,
+  onExpandVideo,
+}: {
+  chapter: (typeof chapters)[0];
+  onExpandVideo: () => void;
+}) {
   return (
     <div className="absolute inset-0 overflow-hidden">
       <Sparkles count={5} seed={chapter.id + 10} />
 
       {/* Title */}
       <div className="px-5 pt-4 pb-1 text-center">
-        <h2 className="font-harry text-2xl md:text-3xl leading-tight" style={{ color:"#2a1505" }}>
+        <h2
+          className="font-harry text-2xl md:text-3xl leading-tight"
+          style={{ color: "#2a1505" }}
+        >
           {chapter.title}
         </h2>
-        <p className="font-harry text-lg mt-0.5" style={{ color:"#7a5020" }}>
+        <p className="font-harry text-lg mt-0.5" style={{ color: "#7a5020" }}>
           ({chapter.subtitle})
         </p>
         <div className="flex items-center gap-2 mt-1">
-          <div className="h-px flex-1" style={{ background:"linear-gradient(to right, transparent, rgba(100,65,20,0.4))" }}/>
-          <svg width="8" height="8" viewBox="0 0 10 10"><path d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z" fill="rgba(139,100,30,0.5)"/></svg>
-          <div className="h-px flex-1" style={{ background:"linear-gradient(to left, transparent, rgba(100,65,20,0.4))" }}/>
+          <div
+            className="h-px flex-1"
+            style={{
+              background:
+                "linear-gradient(to right, transparent, rgba(100,65,20,0.4))",
+            }}
+          />
+          <svg width="8" height="8" viewBox="0 0 10 10">
+            <path
+              d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z"
+              fill="rgba(139,100,30,0.5)"
+            />
+          </svg>
+          <div
+            className="h-px flex-1"
+            style={{
+              background:
+                "linear-gradient(to left, transparent, rgba(100,65,20,0.4))",
+            }}
+          />
         </div>
       </div>
 
@@ -459,25 +708,52 @@ function RightPage({ chapter, onExpandVideo }: { chapter: (typeof chapters)[0], 
         <button
           onClick={onExpandVideo}
           className="focus:outline-none hover:scale-[1.02] transition-transform"
-          style={{ float:"right", width:"42%", marginLeft:"10px", marginBottom:"8px", lineHeight:1 }}
+          style={{
+            float: "right",
+            width: "42%",
+            marginLeft: "10px",
+            marginBottom: "8px",
+            lineHeight: 1,
+          }}
         >
-          <PhotoFrame gifUrl={chapter.gifUrl} gifCaption={chapter.gifCaption} placeholder={chapter.videoPlaceholder} />
+          <PhotoFrame
+            gifUrl={chapter.gifUrl}
+            gifCaption={chapter.gifCaption}
+            placeholder={chapter.videoPlaceholder}
+          />
           {chapter.gifCaption && (
-            <p className="text-center font-harry text-lg italic mt-1.5" style={{ color:"rgba(100,65,20,0.8)" }}>
+            <p
+              className="text-center font-harry text-lg italic mt-1.5"
+              style={{ color: "rgba(100,65,20,0.8)" }}
+            >
               "{chapter.gifCaption}"
             </p>
           )}
         </button>
-        <p className="font-harry text-xl" style={{ color:"#2e1a08", textAlign:"justify", lineHeight:"1.4", display:"block", letterSpacing: "1px" }}>
+        <p
+          className="font-harry text-xl pb-16"
+          style={{
+            color: "#2e1a08",
+            textAlign: "justify",
+            lineHeight: "1.4",
+            display: "block",
+            letterSpacing: "1px",
+          }}
+        >
           {chapter.storyText}
         </p>
-        <div style={{ clear:"both" }} />
+        <div style={{ clear: "both" }} />
       </div>
 
       {/* Page number */}
       <div className="absolute bottom-2 left-0 right-0 flex justify-center">
-        <span className="font-harry text-xl" style={{ color:"rgba(100,65,20,0.6)" }}>{chapter.id * 2}</span>
+        <span
+          className="font-harry text-xl"
+          style={{ color: "rgba(100,65,20,0.6)" }}
+        >
+          {chapter.id * 2}
+        </span>
       </div>
     </div>
-  )
+  );
 }

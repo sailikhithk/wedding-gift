@@ -1,16 +1,20 @@
-"use client"
+"use client";
 
-import type { Chapter } from "@/lib/chapters"
-import { MovingPicture } from "./moving-picture"
+import type { Chapter } from "@/lib/chapters";
+import { MovingPicture } from "./moving-picture";
 
 interface ChapterSpreadProps {
-  chapter: Chapter
-  isActive: boolean
-  onExpandVideo: () => void
+  chapter: Chapter;
+  isActive: boolean;
+  onExpandVideo: () => void;
 }
 
-export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSpreadProps) {
-  if (!isActive) return null
+export function ChapterSpread({
+  chapter,
+  isActive,
+  onExpandVideo,
+}: ChapterSpreadProps) {
+  if (!isActive) return null;
 
   return (
     <div className="w-full h-full flex flex-col lg:flex-row">
@@ -20,7 +24,8 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
         <div
           className="absolute top-0 right-0 bottom-0 w-8 hidden lg:block"
           style={{
-            background: "linear-gradient(to left, rgba(0,0,0,0.08) 0%, transparent 100%)",
+            background:
+              "linear-gradient(to left, rgba(0,0,0,0.08) 0%, transparent 100%)",
           }}
         />
 
@@ -31,7 +36,8 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
             className="font-sans text-xs tracking-[0.4em] uppercase"
             style={{ color: "#8b7355" }}
           >
-            {"Chapter "}{chapter.id}
+            {"Chapter "}
+            {chapter.id}
           </span>
           <div className="h-px flex-1 bg-ink/20 flourish-line" />
         </div>
@@ -55,8 +61,17 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
         {/* Decorative divider */}
         <div className="flex items-center justify-center gap-2 mb-6">
           <div className="h-px w-8 bg-ink/20" />
-          <svg width="12" height="12" viewBox="0 0 12 12" style={{ color: "#c9a84c" }}>
-            <path d="M6 0 L7.5 4.5 L12 6 L7.5 7.5 L6 12 L4.5 7.5 L0 6 L4.5 4.5 Z" fill="currentColor" opacity="0.5" />
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            style={{ color: "#c9a84c" }}
+          >
+            <path
+              d="M6 0 L7.5 4.5 L12 6 L7.5 7.5 L6 12 L4.5 7.5 L0 6 L4.5 4.5 Z"
+              fill="currentColor"
+              opacity="0.5"
+            />
           </svg>
           <div className="h-px w-8 bg-ink/20" />
         </div>
@@ -78,8 +93,21 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
         {/* Bottom flourish */}
         <div className="flex items-center justify-center gap-3 mt-8">
           <div className="h-px w-16 bg-ink/15" />
-          <svg width="8" height="8" viewBox="0 0 8 8" style={{ color: "#c9a84c" }}>
-            <circle cx="4" cy="4" r="3" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.4" />
+          <svg
+            width="8"
+            height="8"
+            viewBox="0 0 8 8"
+            style={{ color: "#c9a84c" }}
+          >
+            <circle
+              cx="4"
+              cy="4"
+              r="3"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.5"
+              opacity="0.4"
+            />
             <circle cx="4" cy="4" r="1" fill="currentColor" opacity="0.3" />
           </svg>
           <div className="h-px w-16 bg-ink/15" />
@@ -103,7 +131,8 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
         <div
           className="absolute top-0 left-0 bottom-0 w-8 hidden lg:block"
           style={{
-            background: "linear-gradient(to right, rgba(0,0,0,0.06) 0%, transparent 100%)",
+            background:
+              "linear-gradient(to right, rgba(0,0,0,0.06) 0%, transparent 100%)",
           }}
         />
 
@@ -140,9 +169,9 @@ export function ChapterSpread({ chapter, isActive, onExpandVideo }: ChapterSprea
           className="text-center font-serif text-xs italic mt-6"
           style={{ color: "#8b7355" }}
         >
-          {"\"A memory preserved in magical ink\""}
+          {'"A memory preserved in magical ink"'}
         </p>
       </div>
     </div>
-  )
+  );
 }

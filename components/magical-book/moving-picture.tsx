@@ -1,17 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
 interface MovingPictureProps {
-  videoSrc?: string
-  placeholder: string
-  gifUrl?: string
-  gifCaption?: string
-  onExpand: () => void
+  videoSrc?: string;
+  placeholder: string;
+  gifUrl?: string;
+  gifCaption?: string;
+  onExpand: () => void;
 }
 
-export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExpand }: MovingPictureProps) {
-  const [isHovered, setIsHovered] = useState(false)
+export function MovingPicture({
+  videoSrc,
+  placeholder,
+  gifUrl,
+  gifCaption,
+  onExpand,
+}: MovingPictureProps) {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <button
@@ -51,8 +57,18 @@ export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExp
           "-bottom-3 -right-3 md:-bottom-4 md:-right-4 rotate-180",
         ].map((pos, i) => (
           <div key={i} className={`absolute ${pos} z-10`}>
-            <svg width="16" height="16" viewBox="0 0 16 16" className="text-gold/60">
-              <path d="M1 1 L1 10 Q1 1 10 1" stroke="currentColor" strokeWidth="2" fill="none" />
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              className="text-gold/60"
+            >
+              <path
+                d="M1 1 L1 10 Q1 1 10 1"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+              />
             </svg>
           </div>
         ))}
@@ -83,26 +99,38 @@ export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExp
                 style={{ filter: "sepia(0.55) contrast(1.1) brightness(0.9)" }}
               />
               {/* Parchment vignette overlay */}
-              <div className="absolute inset-0 pointer-events-none" style={{
-                background: "radial-gradient(ellipse at center, transparent 50%, rgba(42,21,8,0.45) 100%)",
-              }} />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at center, transparent 50%, rgba(42,21,8,0.45) 100%)",
+                }}
+              />
             </div>
           ) : (
             /* Placeholder with animated grain effect */
-            <div className="w-full h-full moving-picture flex items-center justify-center relative"
+            <div
+              className="w-full h-full moving-picture flex items-center justify-center relative"
               style={{
-                background: "linear-gradient(135deg, #3d2a14 0%, #2a1a0a 50%, #3d2a14 100%)",
+                background:
+                  "linear-gradient(135deg, #3d2a14 0%, #2a1a0a 50%, #3d2a14 100%)",
               }}
             >
               {/* Film grain noise effect */}
-              <div className="absolute inset-0 opacity-30"
+              <div
+                className="absolute inset-0 opacity-30"
                 style={{
                   backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`,
                 }}
               />
               {/* Camera icon */}
               <div className="relative flex flex-col items-center gap-2">
-                <svg width="32" height="32" viewBox="0 0 24 24" className="text-gold/40">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  className="text-gold/40"
+                >
                   <path
                     d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
                     fill="none"
@@ -111,7 +139,14 @@ export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExp
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
-                  <circle cx="12" cy="13" r="4" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                  <circle
+                    cx="12"
+                    cy="13"
+                    r="4"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
                 </svg>
                 <span className="text-gold/30 font-serif text-xs text-center px-4">
                   {placeholder}
@@ -125,7 +160,8 @@ export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExp
             className="absolute inset-0 transition-opacity duration-500"
             style={{
               opacity: isHovered ? 0.15 : 0,
-              background: "radial-gradient(circle at center, #c9a84c 0%, transparent 70%)",
+              background:
+                "radial-gradient(circle at center, #c9a84c 0%, transparent 70%)",
             }}
           />
         </div>
@@ -139,8 +175,10 @@ export function MovingPicture({ videoSrc, placeholder, gifUrl, gifCaption, onExp
           opacity: isHovered ? 1 : 0,
         }}
       >
-        {gifUrl ? (gifCaption ?? "A magical moving portrait") : "Tap to reveal in full color"}
+        {gifUrl
+          ? (gifCaption ?? "A magical moving portrait")
+          : "Tap to reveal in full color"}
       </p>
     </button>
-  )
+  );
 }

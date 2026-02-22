@@ -1,11 +1,11 @@
 export interface Chapter {
-  id: number
-  title: string
-  subtitle: string
-  storyText: string
-  videoPlaceholder: string
-  gifUrl?: string
-  gifCaption?: string
+  id: number;
+  title: string;
+  subtitle: string;
+  storyText: string;
+  videoPlaceholder: string;
+  gifUrl?: string;
+  gifCaption?: string;
 }
 
 export const chapters: Chapter[] = [
@@ -59,4 +59,4 @@ export const chapters: Chapter[] = [
     gifUrl: "https://media.giphy.com/media/MtNEkGjtLuDmy0dhIT/giphy.gif",
     gifCaption: "Soaring into the next chapter",
   },
-]
+];

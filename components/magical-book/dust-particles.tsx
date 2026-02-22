@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 interface Particle {
-  id: number
-  left: number
-  delay: number
-  duration: number
-  size: number
+  id: number;
+  left: number;
+  delay: number;
+  duration: number;
+  size: number;
 }
 
 export function DustParticles() {
-  const [particles, setParticles] = useState<Particle[]>([])
+  const [particles, setParticles] = useState<Particle[]>([]);
 
   useEffect(() => {
     const generated: Particle[] = Array.from({ length: 30 }, (_, i) => ({
@@ -20,9 +20,9 @@ export function DustParticles() {
       delay: Math.random() * 10,
       duration: 6 + Math.random() * 8,
       size: 1 + Math.random() * 3,
-    }))
-    setParticles(generated)
-  }, [])
+    }));
+    setParticles(generated);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-10 pointer-events-none overflow-hidden">
@@ -41,5 +41,5 @@ export function DustParticles() {
         />
       ))}
     </div>
-  )
+  );
 }

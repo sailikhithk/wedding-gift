@@ -189,6 +189,20 @@
   transform-origin: left center;
 }
 
+/* Book open glow burst */
+@keyframes bookOpenGlow {
+  0%   { opacity: 1; transform: scale(0.6); }
+  30%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* Marauder's footprints appear one by one */
+@keyframes footAppear {
+  0%   { opacity: 0; }
+  60%  { opacity: 0.65; }
+  100% { opacity: 0.55; }
+}
+
 /* Two-page book flip animations */
 @keyframes flipForward {
   0%   { transform: rotateY(0deg); }

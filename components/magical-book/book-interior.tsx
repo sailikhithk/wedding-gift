@@ -46,16 +46,25 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
     <div className="fixed inset-0 z-30 flex flex-col items-center justify-center p-2 md:p-3">
       <HogwartsBackground />
 
+      {/* ── MAGICAL OPENING GLOW BURST ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 60% 40% at 50% 52%, rgba(255,220,100,0.55) 0%, rgba(201,168,76,0.25) 35%, transparent 70%)",
+          animation: "bookOpenGlow 2.5s ease-out forwards",
+          zIndex: 5,
+        }}
+      />
+
       <div className="relative z-10 mx-auto gentle-float" style={{ width: "min(1716px, 99vw)" }}>
         <div>
-
           {/* ── OPEN BOOK using real book-pages.png as background ── */}
           <div className="relative" style={{
             width: "min(1716px, 99vw)",
             aspectRatio: "1280/706",
             filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.85))",
           }}>
-            {/* The real book image as background */}
+            {/* Real book image */}
             <img
               src="/images/book-pages.png"
               alt=""
@@ -64,51 +73,77 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               style={{ objectFit: "fill", zIndex: 1 }}
             />
 
-            {/* ── LEFT PAGE CONTENT AREA ──
-                Pixel-accurate: x=18.7%–49.4%, y=13.9%–75.2%
-            ── */}
+            {/* ── LEFT PAGE CONTENT (text only, no decorations) ── */}
             <div className="absolute overflow-hidden" style={{
               left: "21%", right: "52%",
-              top: "13.9%", bottom: "24.8%",
+              top: "13.9%", bottom: "26%",
               zIndex: 2,
-              transform: "skewY(-1.8deg)",
+              transform: "skewY(-3.5deg)",
               transformOrigin: "center top",
             }}>
               <LeftPage chapter={cur} />
             </div>
 
-            {/* ── RIGHT PAGE CONTENT AREA ──
-                Pixel-accurate: x=50.5%–81.5%, y=13.9%–74.8%
-            ── */}
+            {/* ── RIGHT PAGE CONTENT (text only, no decorations) ── */}
             <div className="absolute overflow-hidden" style={{
               left: "52%", right: "21%",
-              top: "13.9%", bottom: "25.2%",
+              top: "13.9%", bottom: "26%",
               zIndex: 2,
-              transform: "skewY(1.8deg)",
+              transform: "skewY(3.5deg)",
               transformOrigin: "center top",
             }}>
               <RightPage chapter={cur} onExpandVideo={() => setExpandedVideo(true)} />
             </div>
 
+            {/* ── FEATHER — on left page, bottom area ── */}
+            <img
+              src="/images/feather.png"
+              alt="quill feather"
+              className="absolute pointer-events-none"
+              style={{
+                bottom: "28%", left: "16%",
+                width: "18%",
+                transform: "rotate(-22deg)",
+                transformOrigin: "30% 85%",
+                filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.5))",
+                zIndex: 10,
+              }}
+            />
+
+            {/* ── INK BOTTLE — on left page, bottom area ── */}
+            <img
+              src="/images/ink-bottle-cropped.png"
+              alt="ink bottle"
+              className="absolute pointer-events-none"
+              style={{
+                bottom: "30%", left: "23%",
+                width: "4%",
+                filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.6))",
+                zIndex: 11,
+              }}
+            />
+
+            {/* ── WAX SEAL — on right page, bottom area ── */}
+            <WaxSeal style={{ bottom: "26%", right: "19%", zIndex: 10 }} />
+
+            {/* ── MARAUDER'S FOOTPRINTS ── */}
+            <MaraudersFootprints />
+
             {/* ── CLICK ZONES: brown page stack edges ── */}
-            {/* Left stack (0–18.7%) → previous / close */}
             <div
               onClick={canGoBack ? () => turnPage("back") : onClose}
               className="absolute top-0 bottom-0 left-0 z-10"
               style={{ width: "18.7%", cursor: "inherit" }}
-              title={canGoBack ? "Previous chapter" : "Close book"}
             />
-            {/* Right stack (81.5%–100%) → next */}
             {canGoForward && (
               <div
                 onClick={() => turnPage("forward")}
                 className="absolute top-0 bottom-0 right-0 z-10"
                 style={{ width: "18.5%", cursor: "inherit" }}
-                title="Next chapter"
               />
             )}
 
-            {/* ── FLIPPING LEAF (covers half the book) ── */}
+            {/* ── FLIPPING LEAF ── */}
             {isPageTurning && (
               <div className="absolute" style={{
                 left: turnDirection === "forward" ? "50%" : "0",
@@ -121,7 +156,6 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                   : "flipBack 0.9s cubic-bezier(0.645,0.045,0.355,1.000) forwards",
                 zIndex: 30,
               }}>
-                {/* Front face */}
                 <div className="absolute inset-0 overflow-hidden" style={{
                   background: "linear-gradient(160deg, #eedcb8 0%, #e5ce9e 50%, #d8be88 100%)",
                   backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
@@ -132,17 +166,12 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                       ? "linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 50%)"
                       : "linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 50%)",
                   }} />
-                  <div className="absolute" style={{
-                    left: turnDirection === "forward" ? "3%" : "3%",
-                    right: turnDirection === "forward" ? "3%" : "3%",
-                    top: "14%", bottom: "14%",
-                  }}>
+                  <div className="absolute" style={{ left:"3%", right:"3%", top:"14%", bottom:"14%" }}>
                     {turnDirection === "forward"
                       ? <RightPage chapter={cur} onExpandVideo={() => {}} />
                       : <LeftPage chapter={cur} />}
                   </div>
                 </div>
-                {/* Back face */}
                 <div className="absolute inset-0 overflow-hidden" style={{
                   background: "linear-gradient(160deg, #e8d4b0 0%, #dcc89a 50%, #d0b882 100%)",
                   backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden",
@@ -150,9 +179,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                 }}>
                   <PageTexture />
                   <div style={{ transform: "scaleX(-1)", height: "100%" }}>
-                    <div className="absolute" style={{
-                      left: "3%", right: "3%", top: "14%", bottom: "14%",
-                    }}>
+                    <div className="absolute" style={{ left:"3%", right:"3%", top:"14%", bottom:"14%" }}>
                       {turnDirection === "forward"
                         ? <LeftPage chapter={nxt} />
                         : <RightPage chapter={nxt} onExpandVideo={() => {}} />}
@@ -164,7 +191,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
           </div>
         </div>
 
-        {/* Navigation */}
+        {/* Chapter dots */}
         <div className="flex items-center justify-center mt-3 px-1">
           <div className="flex items-center gap-2">
             {chapters.map((_, i) => (
@@ -205,13 +232,9 @@ function PageTexture() {
   )
 }
 
-/** Ornate photo frame using real frame image */
 function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCaption?:string, placeholder:string }) {
   return (
-    // Cropped frame is 450x640 → aspect ratio 0.703
     <div className="relative mx-auto" style={{ aspectRatio: "450/640", width: "100%" }}>
-      {/* Photo content sits in the window opening
-          Insets: top 8.9%, bottom 8.8%, left 11.8%, right 11.3% */}
       <div className="absolute overflow-hidden" style={{
         top: "8.9%", bottom: "8.8%",
         left: "11.8%", right: "11.3%",
@@ -236,8 +259,6 @@ function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCa
           background: "radial-gradient(ellipse at center, transparent 55%, rgba(20,10,2,0.3) 100%)",
         }} />
       </div>
-
-      {/* Cropped frame PNG on top */}
       <img
         src="/images/phot-frame-cropped.png"
         alt="ornate frame"
@@ -248,11 +269,10 @@ function PhotoFrame({ gifUrl, gifCaption, placeholder }: { gifUrl?:string, gifCa
   )
 }
 
-/** Wax seal */
 function WaxSeal({ style }: { style?: React.CSSProperties }) {
   return (
-    <div className="pointer-events-none select-none" style={{ ...style, position:"absolute" }}>
-      <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+    <div className="pointer-events-none select-none" style={{ ...style, position: "absolute" }}>
+      <svg width="72" height="72" viewBox="0 0 44 44" fill="none">
         <circle cx="22" cy="22" r="20" fill="#8b2500" stroke="rgba(201,168,76,0.6)" strokeWidth="1.5"/>
         <circle cx="22" cy="22" r="15" fill="none" stroke="rgba(201,168,76,0.4)" strokeWidth="0.8"/>
         <text x="22" y="27" textAnchor="middle" fontSize="14" fontFamily="serif" fill="rgba(201,168,76,0.9)" fontWeight="bold">H</text>
@@ -261,7 +281,6 @@ function WaxSeal({ style }: { style?: React.CSSProperties }) {
   )
 }
 
-/** Sparkle dots scattered on page */
 function Sparkles({ count=6, seed=0 }: { count?:number, seed?:number }) {
   const items = Array.from({length:count},(_,i)=>({
     x: 5 + ((i*37+seed*13)%85),
@@ -286,12 +305,78 @@ function Sparkles({ count=6, seed=0 }: { count?:number, seed?:number }) {
   )
 }
 
+// ── Marauder's Map footprints ──
+
+function MaraudersFootprints() {
+  // A trail of footprints walking across both pages
+  // Each: { x, y, rot, isLeft } — x/y as % of book container
+  const prints = [
+    // Left page — walking from bottom-left upward
+    { x: 22, y: 72, rot: -10, left: true },
+    { x: 24, y: 66, rot: 8,   left: false },
+    { x: 23, y: 60, rot: -12, left: true },
+    { x: 25, y: 54, rot: 6,   left: false },
+    { x: 24, y: 48, rot: -8,  left: true },
+    { x: 26, y: 42, rot: 10,  left: false },
+    { x: 25, y: 36, rot: -6,  left: true },
+    { x: 27, y: 30, rot: 8,   left: false },
+    // Crossing the spine
+    { x: 30, y: 26, rot: 15,  left: true },
+    { x: 34, y: 23, rot: 20,  left: false },
+    { x: 38, y: 21, rot: 18,  left: true },
+    { x: 43, y: 20, rot: 15,  left: false },
+    { x: 48, y: 20, rot: 10,  left: true },
+    // Right page — continuing
+    { x: 53, y: 21, rot: 8,   left: false },
+    { x: 58, y: 23, rot: 12,  left: true },
+    { x: 62, y: 26, rot: -8,  left: false },
+    { x: 64, y: 32, rot: -12, left: true },
+    { x: 63, y: 38, rot: 10,  left: false },
+    { x: 65, y: 44, rot: -8,  left: true },
+    { x: 64, y: 50, rot: 6,   left: false },
+    { x: 66, y: 56, rot: -10, left: true },
+    { x: 65, y: 62, rot: 8,   left: false },
+    { x: 67, y: 68, rot: -6,  left: true },
+  ]
+
+  return (
+    <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
+      {prints.map((p, i) => (
+        <svg
+          key={i}
+          width="18" height="22"
+          viewBox="0 0 18 22"
+          className="absolute"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            transform: `rotate(${p.rot}deg) scaleX(${p.left ? 1 : -1})`,
+            opacity: 0.28,
+            animation: `footAppear 0.3s ease-out ${i * 0.18}s both`,
+          }}
+        >
+          {/* Heel */}
+          <ellipse cx="9" cy="18" rx="5.5" ry="3.5" fill="#3d2008"/>
+          {/* Mid-foot */}
+          <ellipse cx="8" cy="13" rx="3.5" ry="4" fill="#3d2008"/>
+          {/* Ball */}
+          <ellipse cx="9" cy="8" rx="5" ry="3.5" fill="#3d2008"/>
+          {/* Toes */}
+          <ellipse cx="5"  cy="4.5" rx="2"   ry="1.5" fill="#3d2008"/>
+          <ellipse cx="8"  cy="3"   rx="2"   ry="1.5" fill="#3d2008"/>
+          <ellipse cx="11" cy="3.5" rx="1.8" ry="1.4" fill="#3d2008"/>
+          <ellipse cx="13.5" cy="5" rx="1.5" ry="1.3" fill="#3d2008"/>
+        </svg>
+      ))}
+    </div>
+  )
+}
 
 // ── Page content components ──
 
 function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
   return (
-    <div className="absolute inset-0 overflow-visible">
+    <div className="absolute inset-0 overflow-hidden">
       <Sparkles count={5} seed={chapter.id} />
 
       {/* Chapter title */}
@@ -309,61 +394,19 @@ function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
         </div>
       </div>
 
-      {/* Text with frame floated right — CSS float wraps text naturally */}
+      {/* Text with frame floated right */}
       <div className="px-4 md:px-5" style={{ lineHeight: 0 }}>
-        {/* Float the frame to the right so text wraps around it */}
-        <div style={{
-          float: "right",
-          width: "42%",
-          marginLeft: "10px",
-          marginBottom: "8px",
-          lineHeight: 1,
-        }}>
+        <div style={{ float:"right", width:"42%", marginLeft:"10px", marginBottom:"8px", lineHeight:1 }}>
           <PhotoFrame gifUrl={chapter.gifUrl} gifCaption={chapter.gifCaption} placeholder={chapter.videoPlaceholder} />
         </div>
-
-        <p className="font-serif text-xs" style={{
-          color:"#2e1a08",
-          textAlign:"justify",
-          lineHeight:"1.75",
-          display: "block",
-        }}>
+        <p className="font-serif text-xs" style={{ color:"#2e1a08", textAlign:"justify", lineHeight:"1.75", display:"block" }}>
           {chapter.storyText}
         </p>
-
-        {/* Clear float */}
-        <div style={{ clear: "both" }} />
-      </div>
-
-      {/* Feather + ink bottle — bottom left */}
-      <div className="absolute pointer-events-none" style={{ bottom: -10, left: 0, width: "75%", zIndex: 10 }}>
-        <img
-          src="/images/ink-bottle-cropped.png"
-          alt="ink bottle"
-          className="absolute"
-          style={{
-            width: "18%",
-            bottom: 8,
-            left: "12%",
-            filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.5))",
-          }}
-        />
-        <img
-          src="/images/feather.png"
-          alt="quill feather"
-          style={{
-            width: "90%",
-            display: "block",
-            transform: "rotate(-22deg)",
-            transformOrigin: "30% 85%",
-            filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.4))",
-            marginLeft: "-5%",
-          }}
-        />
+        <div style={{ clear:"both" }} />
       </div>
 
       {/* Page number */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center" style={{ zIndex: 2 }}>
+      <div className="absolute bottom-2 left-0 right-0 flex justify-center" style={{ zIndex: 2 }}>
         <span className="font-serif text-[10px]" style={{ color:"rgba(100,65,20,0.45)" }}>{chapter.id * 2 - 1}</span>
       </div>
     </div>
@@ -390,18 +433,12 @@ function RightPage({ chapter, onExpandVideo }: { chapter: (typeof chapters)[0], 
         </div>
       </div>
 
-      {/* Text with frame floated LEFT — wraps around it */}
+      {/* Text with frame floated left */}
       <div className="px-4 md:px-5" style={{ lineHeight: 0 }}>
         <button
           onClick={onExpandVideo}
           className="focus:outline-none hover:scale-[1.02] transition-transform"
-          style={{
-            float: "left",
-            width: "42%",
-            marginRight: "10px",
-            marginBottom: "8px",
-            lineHeight: 1,
-          }}
+          style={{ float:"left", width:"42%", marginRight:"10px", marginBottom:"8px", lineHeight:1 }}
         >
           <PhotoFrame gifUrl={chapter.gifUrl} gifCaption={chapter.gifCaption} placeholder={chapter.videoPlaceholder} />
           {chapter.gifCaption && (
@@ -410,24 +447,14 @@ function RightPage({ chapter, onExpandVideo }: { chapter: (typeof chapters)[0], 
             </p>
           )}
         </button>
-
-        <p className="font-serif text-xs" style={{
-          color:"#2e1a08",
-          textAlign:"justify",
-          lineHeight:"1.75",
-          display: "block",
-        }}>
+        <p className="font-serif text-xs" style={{ color:"#2e1a08", textAlign:"justify", lineHeight:"1.75", display:"block" }}>
           {chapter.storyText}
         </p>
-
-        <div style={{ clear: "both" }} />
+        <div style={{ clear:"both" }} />
       </div>
 
-      {/* Wax seal — bottom right */}
-      <WaxSeal style={{ bottom:8, right:10 }} />
-
       {/* Page number */}
-      <div className="absolute bottom-3 left-0 right-0 flex justify-center">
+      <div className="absolute bottom-2 left-0 right-0 flex justify-center">
         <span className="font-serif text-[10px]" style={{ color:"rgba(100,65,20,0.45)" }}>{chapter.id * 2}</span>
       </div>
     </div>

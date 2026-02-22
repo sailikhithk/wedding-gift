@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from 'next'
 import { Cinzel, IM_Fell_English, Cinzel_Decorative } from 'next/font/google'
+import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+
+const harry = localFont({
+  src: '../public/fonts/harryp.ttf',
+  variable: '--font-harry',
+  display: 'swap',
+})
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -56,7 +63,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${imFell.variable} ${cinzelDecorative.variable}`}>
+    <html lang="en" className={`${cinzel.variable} ${imFell.variable} ${cinzelDecorative.variable} ${harry.variable}`}>
       <body className="font-serif antialiased">
         {children}
         <Analytics />

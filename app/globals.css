@@ -37,6 +37,7 @@
   --font-sans: var(--font-cinzel), Georgia, serif;
   --font-serif: var(--font-im-fell), 'Palatino Linotype', Palatino, Georgia, serif;
   --font-mono: var(--font-cinzel-decorative), Georgia, serif;
+  --font-harry: var(--font-harry), sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);

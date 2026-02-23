@@ -59,7 +59,7 @@ export function BookCover({ onOpen }: BookCoverProps) {
             style={{
               transformStyle: "preserve-3d",
               transform: "rotateX(8deg) rotateY(-12deg)",
-              width: "min(1500px, 92vw)",
+              width: "calc(min(95vw, 140vh) * 0.414)", // Precisely matches the BookInterior height
               aspectRatio: "3/4",
             }}
           >

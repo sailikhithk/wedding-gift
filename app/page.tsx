@@ -56,7 +56,7 @@ export default function SaiWedsSai() {
               </h1>
               <button
                 onClick={() => setIntroStarted(true)}
-                className="relative px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-all duration-300 opacity-0 animate-fade-in-up z-20"
+                className="relative px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-colors transition-transform duration-300 opacity-0 animate-fade-in-up z-20"
                 style={{ animationDelay: "1.5s" }}
               >
                 Enter the Magic
@@ -73,7 +73,7 @@ export default function SaiWedsSai() {
               />
               <button
                 onClick={() => setStage("dark")}
-                className="absolute bottom-8 right-8 z-50 px-6 py-2 rounded-full bg-black/40 text-white/50 hover:text-white/90 hover:bg-black/80 font-serif text-sm backdrop-blur-sm transition-all border border-white/10"
+                className="absolute bottom-8 right-8 z-50 px-6 py-2 rounded-full bg-black/40 text-white/50 hover:text-white/90 hover:bg-black/80 font-serif text-sm backdrop-blur-sm transition-colors transition-transform border border-white/10"
               >
                 Skip Intro
               </button>

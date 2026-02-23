@@ -289,7 +289,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               <div
                 key={i}
                 onClick={() => !isPageTurning && setCurrentChapter(i)}
-                className="cursor-pointer transition-all duration-500"
+                className="cursor-pointer transition-colors transition-transform duration-500"
                 style={{
                   width: i === currentChapter ? "22px" : "6px",
                   height: "6px",

@@ -51,13 +51,16 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 transition-opacity duration-500"
+        className="absolute inset-0 transition-opacity duration-500 bg-cover bg-center"
         style={{
-          background: "rgba(0, 0, 0, 0.92)",
+          backgroundImage: "url(/images/media-player-background.png)",
           opacity: isClosing ? 0 : 1,
         }}
         onClick={handleClose}
-      />
+      >
+        {/* Dark overlay to ensure the video and text stand out against the background */}
+        <div className="absolute inset-0 bg-black/30 z-0" />
+      </div>
 
       {/* Content */}
       <div

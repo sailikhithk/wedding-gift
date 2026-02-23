@@ -42,13 +42,16 @@ export default function SaiWedsSai() {
               <div className="absolute inset-0 pointer-events-none opacity-50">
                 <DustParticles />
               </div>
-              <h1 className="font-harry text-5xl md:text-7xl text-[#c9a84c] mb-8 tracking-wider text-center drop-shadow-lg opacity-0 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+              <h1
+                className="font-harry text-5xl md:text-7xl text-[#c9a84c] mb-8 tracking-wider text-center drop-shadow-lg opacity-0 animate-fade-in-up"
+                style={{ animationDelay: "0.5s" }}
+              >
                 Sai weds Sai
               </h1>
               <button
                 onClick={() => setIntroStarted(true)}
                 className="px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-all duration-300 opacity-0 animate-fade-in-up"
-                style={{ animationDelay: '1.5s' }}
+                style={{ animationDelay: "1.5s" }}
               >
                 Enter the Magic
               </button>
@@ -77,43 +80,49 @@ export default function SaiWedsSai() {
       {stage !== "intro" && (
         <>
           {/* Hogwarts global background image */}
-      <div
-        className="fixed inset-0 bg-cover bg-center pointer-events-none"
-        style={{ backgroundImage: "url(/images/hogwarts-bg.jpg)", zIndex: 0 }}
-      />
+          <div
+            className="fixed inset-0 bg-cover bg-center pointer-events-none"
+            style={{
+              backgroundImage: "url(/images/hogwarts-bg.jpg)",
+              zIndex: 0,
+            }}
+          />
 
-      {/* Global Vignette overlay */}
-      <div
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%)",
-          zIndex: 1,
-        }}
-      />
+          {/* Global Vignette overlay */}
+          <div
+            className="fixed inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.6) 100%)",
+              zIndex: 1,
+            }}
+          />
 
-      {/* Dust particles — always visible */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        <DustParticles />
-      </div>
+          {/* Dust particles — always visible */}
+          <div className="fixed inset-0 pointer-events-none z-10">
+            <DustParticles />
+          </div>
 
-      {/* Wand sparkle trail */}
-      <div className="fixed inset-0 pointer-events-none z-10">
-        <WandCursor enabled={true} />
-      </div>
+          {/* Wand sparkle trail */}
+          <div className="fixed inset-0 pointer-events-none z-10">
+            <WandCursor enabled={true} />
+          </div>
 
-      {/* Lumos flashlight effect */}
-      <LumosOverlay enabled={stage === "dark"} />
+          {/* Lumos flashlight effect */}
+          <LumosOverlay enabled={stage === "dark"} />
 
-      {/* Stage 1 & 2: Dark Landing + Book Cover */}
-      {!coverAnimDone && (
-        <div className="absolute inset-0 z-40 animate-fade-in">
-          <BookCover onOpen={handleBookOpen} />
-        </div>
-      )}
+          {/* Stage 1 & 2: Dark Landing + Book Cover */}
+          {!coverAnimDone && (
+            <div className="absolute inset-0 z-40 animate-fade-in">
+              <BookCover onOpen={handleBookOpen} />
+            </div>
+          )}
 
-      {/* Stage 3+: Reading the book */}
-      <BookInterior visible={stage === "reading"} onClose={handleBookClose} />
+          {/* Stage 3+: Reading the book */}
+          <BookInterior
+            visible={stage === "reading"}
+            onClose={handleBookClose}
+          />
         </>
       )}
       {/* Screen reader announcement */}

@@ -60,7 +60,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
 
       {/* ── MAIN BOOK CONTAINER ── */}
       <div
-        className="relative w-[95vw] max-w-[2000px] preserve-3d mx-auto z-10"
+        className="relative w-[98vw] max-w-[2500px] preserve-3d mx-auto z-10"
         style={{ animation: "floatBook 6s ease-in-out infinite" }}
       >
         <div>

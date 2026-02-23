@@ -35,22 +35,28 @@ export default function SaiWedsSai() {
     >
       {/* Stage 0: Intro Video */}
       {stage === "intro" && (
-        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black">
+        <div className="absolute inset-0 z-50 flex flex-col items-center justify-center">
           {!introStarted ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black z-50">
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-cover bg-center"
+              style={{ backgroundImage: "url(/images/dining-hall.jpg)" }}
+            >
+              {/* Dark overlay to make text readable */}
+              <div className="absolute inset-0 bg-black/60 z-0" />
+
               {/* Magical particles effect on intro screen */}
-              <div className="absolute inset-0 pointer-events-none opacity-50">
+              <div className="absolute inset-0 pointer-events-none opacity-50 z-10">
                 <DustParticles />
               </div>
               <h1
-                className="font-harry text-5xl md:text-7xl text-[#c9a84c] mb-8 tracking-wider text-center drop-shadow-lg opacity-0 animate-fade-in-up"
+                className="relative font-harry text-5xl md:text-7xl text-[#c9a84c] mb-8 tracking-wider text-center drop-shadow-lg opacity-0 animate-fade-in-up z-20"
                 style={{ animationDelay: "0.5s" }}
               >
                 Sai weds Sai
               </h1>
               <button
                 onClick={() => setIntroStarted(true)}
-                className="px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-all duration-300 opacity-0 animate-fade-in-up"
+                className="relative px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-all duration-300 opacity-0 animate-fade-in-up z-20"
                 style={{ animationDelay: "1.5s" }}
               >
                 Enter the Magic

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { WandCursor } from "@/components/magical-book/wand-cursor";
 import { LumosOverlay } from "@/components/magical-book/lumos-overlay";
 import { DustParticles } from "@/components/magical-book/dust-particles";
@@ -13,6 +13,16 @@ export default function SaiWedsSai() {
   const [stage, setStage] = useState<Stage>("intro");
   const [introStarted, setIntroStarted] = useState(false);
   const [coverAnimDone, setCoverAnimDone] = useState(false);
+  const introVideoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (introStarted && introVideoRef.current) {
+      // Explicitly call play to bypass browser autoplay restrictions after interaction
+      introVideoRef.current.play().catch((err) => {
+        console.error("Autoplay failed:", err);
+      });
+    }
+  }, [introStarted]);
 
   const handleBookOpen = useCallback(() => {
     // Mount the interior immediately behind the cover
@@ -65,6 +75,7 @@ export default function SaiWedsSai() {
           ) : (
             <>
               <video
+                ref={introVideoRef}
                 src="/intro/welcome-amma.mp4"
                 autoPlay
                 playsInline

@@ -59,6 +59,21 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
         }}
       />
 
+      {/* ── ACCIO SPELL OVERLAY ── */}
+      {isPageTurning && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-fade-in-out">
+          <h2
+            className="font-harry text-6xl md:text-8xl text-[#c9a84c] tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)] animate-pulse"
+            style={{
+              textShadow:
+                "0 0 20px rgba(201,168,76,0.6), 0 0 40px rgba(201,168,76,0.4)",
+            }}
+          >
+            Accio...
+          </h2>
+        </div>
+      )}
+
       {/* ── MAIN BOOK CONTAINER ── */}
       <div
         className="relative w-[98vw] max-w-[2500px] preserve-3d mx-auto z-10"
@@ -371,16 +386,20 @@ function PageTexture() {
 function PhotoFrame({
   gifUrl,
   gifCaption,
+  videoUrl,
+  mediaPosition,
   placeholder,
 }: {
   gifUrl?: string;
   gifCaption?: string;
+  videoUrl?: string;
+  mediaPosition?: string;
   placeholder: string;
 }) {
   return (
     <div
       className="relative mx-auto"
-      style={{ aspectRatio: "450/640", width: "100%" }}
+      style={{ aspectRatio: "450/500", width: "100%" }}
     >
       <div
         className="absolute overflow-hidden"
@@ -391,12 +410,28 @@ function PhotoFrame({
           right: "11.3%",
         }}
       >
-        {gifUrl ? (
+        {videoUrl ? (
+          <video
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+            style={{
+              filter: "sepia(0.35) contrast(1.05) brightness(0.95)",
+              objectPosition: mediaPosition || "center",
+            }}
+          />
+        ) : gifUrl ? (
           <img
             src={gifUrl}
             alt={gifCaption ?? placeholder}
             className="w-full h-full object-cover"
-            style={{ filter: "sepia(0.35) contrast(1.05) brightness(0.95)" }}
+            style={{
+              filter: "sepia(0.35) contrast(1.05) brightness(0.95)",
+              objectPosition: mediaPosition || "center",
+            }}
           />
         ) : (
           <div
@@ -624,25 +659,10 @@ function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
         </div>
       </div>
 
-      {/* Text with frame floated right */}
-      <div className="px-4 md:px-5" style={{ lineHeight: 0 }}>
-        <div
-          style={{
-            float: "right",
-            width: "42%",
-            marginLeft: "10px",
-            marginBottom: "8px",
-            lineHeight: 1,
-          }}
-        >
-          <PhotoFrame
-            gifUrl={chapter.gifUrl}
-            gifCaption={chapter.gifCaption}
-            placeholder={chapter.videoPlaceholder}
-          />
-        </div>
+      {/* Text only */}
+      <div className="px-6 mt-4">
         <p
-          className="font-harry text-xl pb-16"
+          className="font-harry text-xl md:text-2xl pb-16"
           style={{
             color: "#2e1a08",
             textAlign: "justify",
@@ -653,7 +673,6 @@ function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
         >
           {chapter.storyText}
         </p>
-        <div style={{ clear: "both" }} />
       </div>
 
       {/* Page number */}
@@ -690,81 +709,28 @@ function RightPage({
       {/* Dobby Popup if it's the final chapter */}
       {isFinalChapter && onShowOutro && <DobbyOutro onClick={onShowOutro} />}
 
-      {/* Title */}
-      <div className="px-5 pt-4 pb-1 text-center">
-        <h2
-          className="font-harry text-2xl md:text-3xl leading-tight"
-          style={{ color: "#2a1505" }}
-        >
-          {chapter.title}
-        </h2>
-        <p className="font-harry text-lg mt-0.5" style={{ color: "#7a5020" }}>
-          ({chapter.subtitle})
-        </p>
-        <div className="flex items-center gap-2 mt-1">
-          <div
-            className="h-px flex-1"
-            style={{
-              background:
-                "linear-gradient(to right, transparent, rgba(100,65,20,0.4))",
-            }}
-          />
-          <svg width="8" height="8" viewBox="0 0 10 10">
-            <path
-              d="M5 0L6.2 3.8L10 5L6.2 6.2L5 10L3.8 6.2L0 5L3.8 3.8Z"
-              fill="rgba(139,100,30,0.5)"
-            />
-          </svg>
-          <div
-            className="h-px flex-1"
-            style={{
-              background:
-                "linear-gradient(to left, transparent, rgba(100,65,20,0.4))",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Text with frame floated right */}
-      <div className="px-4 md:px-5" style={{ lineHeight: 0 }}>
+      {/* Large Centered Photo Frame */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-4 pb-8 pt-4">
         <button
           onClick={onExpandVideo}
-          className="focus:outline-none hover:scale-[1.02] transition-transform"
-          style={{
-            float: "right",
-            width: "42%",
-            marginLeft: "10px",
-            marginBottom: "8px",
-            lineHeight: 1,
-          }}
+          className="focus:outline-none hover:scale-[1.02] transition-transform relative w-[75%] md:w-[65%]"
         >
           <PhotoFrame
             gifUrl={chapter.gifUrl}
+            videoUrl={chapter.videoUrl}
+            mediaPosition={chapter.mediaPosition}
             gifCaption={chapter.gifCaption}
             placeholder={chapter.videoPlaceholder}
           />
           {chapter.gifCaption && (
             <p
-              className="text-center font-harry text-lg italic mt-1.5"
+              className="text-center font-harry text-xl md:text-2xl italic mt-4"
               style={{ color: "rgba(100,65,20,0.8)" }}
             >
               "{chapter.gifCaption}"
             </p>
           )}
         </button>
-        <p
-          className="font-harry text-xl pb-16"
-          style={{
-            color: "#2e1a08",
-            textAlign: "justify",
-            lineHeight: "1.4",
-            display: "block",
-            letterSpacing: "1px",
-          }}
-        >
-          {chapter.storyText}
-        </p>
-        <div style={{ clear: "both" }} />
       </div>
 
       {/* Page number */}
@@ -852,6 +818,9 @@ function OutroSequence({ onClose }: { onClose: () => void }) {
         style={{ backgroundImage: "url(/images/media-player-background.png)" }}
       >
         <div className="relative z-10 p-8 md:p-12 rounded-2xl max-w-4xl text-center flex flex-col items-center">
+          <h1 className="font-harry text-5xl md:text-7xl text-[#c9a84c] mb-2 animate-pulse tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)]">
+            Revelio!
+          </h1>
           <h2 className="font-harry text-6xl md:text-8xl text-[#f3e5ab] mb-6 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] leading-tight tracking-wider">
             Hold on!
           </h2>
@@ -860,19 +829,24 @@ function OutroSequence({ onClose }: { onClose: () => void }) {
             they wanna say something
           </p>
 
-          <button
-            onClick={() => setStep("thankyou")}
-            className="mt-12 group relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-transparent border-4 border-[#8b6914] text-[#f3e5ab] shadow-[0_0_20px_rgba(139,105,20,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(139,105,20,0.8)] hover:bg-[#8b6914]/20 transition-all duration-300"
-            aria-label="Play Video"
-          >
-            <svg
-              className="w-12 h-12 ml-2"
-              fill="currentColor"
-              viewBox="0 0 24 24"
+          <div className="mt-12 flex flex-col items-center gap-4">
+            <button
+              onClick={() => setStep("thankyou")}
+              className="group relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-transparent border-4 border-[#8b6914] text-[#f3e5ab] shadow-[0_0_20px_rgba(139,105,20,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(139,105,20,0.8)] hover:bg-[#8b6914]/20 transition-all duration-300"
+              aria-label="Play Video"
             >
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
+              <svg
+                className="w-12 h-12 ml-2"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+            <p className="font-harry text-2xl text-[#c9a84c] tracking-widest drop-shadow-md animate-pulse">
+              Cast "Expecto Patronum"
+            </p>
+          </div>
         </div>
 
         <button

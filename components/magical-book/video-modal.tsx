@@ -12,11 +12,14 @@ interface VideoModalProps {
 export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [showSpell, setShowSpell] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setShowContent(true);
       setIsClosing(false);
+      setShowSpell(true);
+      setTimeout(() => setShowSpell(false), 1200);
     }
   }, [isOpen]);
 
@@ -58,9 +61,24 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
         }}
         onClick={handleClose}
       >
-        {/* Dark overlay to ensure the video and text stand out against the background */}
-        <div className="absolute inset-0 bg-black/30 z-0" />
+        {/* Slight dark overlay to ensure the video and text stand out against the background, brightened per user request */}
+        <div className="absolute inset-0 bg-black/10 z-0" />
       </div>
+
+      {/* Engorgio Spell Overlay */}
+      {showSpell && (
+        <div className="absolute inset-0 z-[60] flex items-center justify-center pointer-events-none animate-fade-in-out">
+          <h2
+            className="font-harry text-6xl md:text-8xl text-[#c9a84c] tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)] animate-pulse"
+            style={{
+              textShadow:
+                "0 0 20px rgba(201,168,76,0.6), 0 0 40px rgba(201,168,76,0.4)",
+            }}
+          >
+            Engorgio...
+          </h2>
+        </div>
+      )}
 
       {/* Content */}
       <div
@@ -91,45 +109,57 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
               "0 0 40px rgba(201, 168, 76, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6)",
           }}
         >
-          {/* Placeholder — replace with actual video */}
-          <div
-            className="w-full h-full flex flex-col items-center justify-center"
-            style={{
-              background:
-                "linear-gradient(135deg, #1a0e05 0%, #2a1a0a 50%, #1a0e05 100%)",
-            }}
-          >
-            {/* Play icon */}
+          {chapter.videoUrl ? (
+            <video
+              src={chapter.videoUrl}
+              autoPlay
+              controls
+              playsInline
+              className="w-full h-full object-cover bg-black"
+            />
+          ) : (
             <div
-              className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+              className="w-full h-full flex flex-col items-center justify-center"
               style={{
-                border: "2px solid rgba(201, 168, 76, 0.4)",
-                background: "rgba(201, 168, 76, 0.1)",
+                background:
+                  "linear-gradient(135deg, #1a0e05 0%, #2a1a0a 50%, #1a0e05 100%)",
               }}
             >
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                style={{ color: "#c9a84c" }}
+              {/* Play icon */}
+              <div
+                className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
+                style={{
+                  border: "2px solid rgba(201, 168, 76, 0.4)",
+                  background: "rgba(201, 168, 76, 0.1)",
+                }}
               >
-                <path d="M8 5 L19 12 L8 19 Z" fill="currentColor" />
-              </svg>
-            </div>
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  style={{ color: "#c9a84c" }}
+                >
+                  <path d="M8 5 L19 12 L8 19 Z" fill="currentColor" />
+                </svg>
+              </div>
 
-            <p className="font-mono text-lg" style={{ color: "#c9a84c" }}>
-              {chapter.title}
-            </p>
-            <p className="font-serif text-sm mt-2" style={{ color: "#8b7355" }}>
-              {chapter.videoPlaceholder}
-            </p>
-            <p
-              className="font-serif text-xs mt-4 italic"
-              style={{ color: "rgba(139, 115, 85, 0.6)" }}
-            >
-              {"Add your video to bring this memory to life"}
-            </p>
-          </div>
+              <p className="font-mono text-lg" style={{ color: "#c9a84c" }}>
+                {chapter.title}
+              </p>
+              <p
+                className="font-serif text-sm mt-2"
+                style={{ color: "#8b7355" }}
+              >
+                {chapter.videoPlaceholder}
+              </p>
+              <p
+                className="font-serif text-xs mt-4 italic"
+                style={{ color: "rgba(139, 115, 85, 0.6)" }}
+              >
+                {"Add your video to bring this memory to life"}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Chapter info below video */}

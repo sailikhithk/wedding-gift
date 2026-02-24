@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { AlohomoraPopup } from "./alohomora-popup";
 
 interface BookCoverProps {
   onOpen: () => void;
@@ -9,6 +10,7 @@ interface BookCoverProps {
 export function BookCover({ onOpen }: BookCoverProps) {
   const [isOpening, setIsOpening] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
+  const [showSpell, setShowSpell] = useState(false);
 
   useEffect(() => {
     // Transition from the entrance zoom animation to the gentle float
@@ -21,11 +23,19 @@ export function BookCover({ onOpen }: BookCoverProps) {
 
   function handleClick() {
     setIsOpening(true);
+    setShowSpell(true);
+  }
+
+  function handleSpellComplete() {
+    setShowSpell(false);
     onOpen();
   }
 
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center">
+      {/* Spell Overlay */}
+      {showSpell && <AlohomoraPopup onComplete={handleSpellComplete} />}
+
       {/* Harry Potter flying — top-left corner */}
       <img
         src="/images/harry-potter-flying.png"

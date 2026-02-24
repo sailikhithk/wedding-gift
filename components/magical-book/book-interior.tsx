@@ -330,9 +330,9 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
         chapter={cur}
       />
 
-      {/* Full screen outro video */}
+      {/* Full screen outro sequence */}
       {showOutroVideo && (
-        <OutroVideo onClose={() => setShowOutroVideo(false)} />
+        <OutroSequence onClose={() => setShowOutroVideo(false)} />
       )}
     </div>
   );
@@ -810,7 +810,93 @@ function DobbyOutro({ onClick }: { onClick: () => void }) {
   );
 }
 
-function OutroVideo({ onClose }: { onClose: () => void }) {
+function OutroSequence({ onClose }: { onClose: () => void }) {
+  const [step, setStep] = useState<"video" | "surprise" | "thankyou">("video");
+
+  if (step === "thankyou") {
+    return (
+      <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center animate-fade-in">
+        <video
+          src="/exit/thanks.mp4"
+          autoPlay
+          playsInline
+          className="w-full h-full object-cover"
+        />
+
+        <button
+          onClick={onClose}
+          className="absolute top-8 right-8 z-[110] p-2 rounded-full bg-black/40 text-white/50 hover:text-white hover:bg-black/80 transition-colors border border-white/10"
+          aria-label="Close"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
+  if (step === "surprise") {
+    return (
+      <div
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center animate-fade-in bg-cover bg-center"
+        style={{ backgroundImage: "url(/images/media-player-background.png)" }}
+      >
+        <div className="relative z-10 p-8 md:p-12 rounded-2xl max-w-4xl text-center flex flex-col items-center">
+          <h2 className="font-harry text-6xl md:text-8xl text-[#f3e5ab] mb-6 drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)] leading-tight tracking-wider">
+            Hold on!
+          </h2>
+          <p className="font-harry text-4xl md:text-6xl text-[#efdbb2] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-relaxed text-center">
+            Surprises doesn't end here, <br />
+            they wanna say something
+          </p>
+
+          <button
+            onClick={() => setStep("thankyou")}
+            className="mt-12 group relative inline-flex items-center justify-center w-24 h-24 rounded-full bg-transparent border-4 border-[#8b6914] text-[#f3e5ab] shadow-[0_0_20px_rgba(139,105,20,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(139,105,20,0.8)] hover:bg-[#8b6914]/20 transition-all duration-300"
+            aria-label="Play Video"
+          >
+            <svg
+              className="w-12 h-12 ml-2"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+        </div>
+
+        <button
+          onClick={onClose}
+          className="absolute top-8 right-8 z-[110] p-2 rounded-full bg-black/40 text-white/50 hover:text-white hover:bg-black/80 transition-colors border border-white/10"
+          aria-label="Close surprise screen"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center animate-fade-in">
       <video
@@ -818,11 +904,12 @@ function OutroVideo({ onClose }: { onClose: () => void }) {
         autoPlay
         playsInline
         className="w-full h-full object-cover"
-        onEnded={onClose}
+        onEnded={() => setStep("surprise")}
       />
       <button
         onClick={onClose}
         className="absolute top-8 right-8 z-[110] p-2 rounded-full bg-black/40 text-white/50 hover:text-white hover:bg-black/80 transition-colors border border-white/10"
+        aria-label="Skip video"
       >
         <svg
           width="24"

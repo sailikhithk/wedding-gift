@@ -6,11 +6,13 @@ import { LumosOverlay } from "@/components/magical-book/lumos-overlay";
 import { DustParticles } from "@/components/magical-book/dust-particles";
 import { BookCover } from "@/components/magical-book/book-cover";
 import { BookInterior } from "@/components/magical-book/book-interior";
+import { SortingSequence } from "@/components/magical-book/sorting-sequence";
 
 type Stage = "intro" | "dark" | "opening" | "reading";
 
 export default function SaiWedsSai() {
   const [stage, setStage] = useState<Stage>("intro");
+  const [showSorting, setShowSorting] = useState(false);
   const [introStarted, setIntroStarted] = useState(false);
   const [coverAnimDone, setCoverAnimDone] = useState(false);
   const introVideoRef = useRef<HTMLVideoElement>(null);
@@ -46,7 +48,14 @@ export default function SaiWedsSai() {
       {/* Stage 0: Intro Video */}
       {stage === "intro" && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center">
-          {!introStarted ? (
+          {showSorting ? (
+            <SortingSequence
+              onComplete={() => {
+                setShowSorting(false);
+                setIntroStarted(true);
+              }}
+            />
+          ) : !introStarted ? (
             <div
               className="absolute inset-0 flex flex-col items-center justify-center z-50 bg-cover bg-center"
               style={{ backgroundImage: "url(/images/dining-hall.jpg)" }}
@@ -65,7 +74,7 @@ export default function SaiWedsSai() {
                 Sai weds Sai
               </h1>
               <button
-                onClick={() => setIntroStarted(true)}
+                onClick={() => setShowSorting(true)}
                 className="relative group flex flex-col items-center justify-center opacity-0 animate-fade-in-up z-20 focus:outline-none hover:scale-105 transition-transform duration-500"
                 style={{ animationDelay: "1.5s" }}
               >

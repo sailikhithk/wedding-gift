@@ -18,6 +18,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
   );
   const [nextChapter, setNextChapter] = useState(0);
   const [expandedVideo, setExpandedVideo] = useState(false);
+  const [showOutroVideo, setShowOutroVideo] = useState(false);
 
   const canGoForward = currentChapter < chapters.length - 1;
   const canGoBack = currentChapter > 0;
@@ -115,6 +116,8 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
               <RightPage
                 chapter={cur}
                 onExpandVideo={() => setExpandedVideo(true)}
+                isFinalChapter={currentChapter === chapters.length - 1}
+                onShowOutro={() => setShowOutroVideo(true)}
               />
             </div>
 
@@ -246,7 +249,14 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                       }}
                     >
                       {turnDirection === "forward" ? (
-                        <RightPage chapter={cur} onExpandVideo={() => {}} />
+                        <RightPage
+                          chapter={cur}
+                          onExpandVideo={() => {}}
+                          isFinalChapter={
+                            currentChapter === chapters.length - 1
+                          }
+                          onShowOutro={() => {}}
+                        />
                       ) : (
                         <LeftPage chapter={cur} />
                       )}
@@ -271,7 +281,12 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
                         {turnDirection === "forward" ? (
                           <LeftPage chapter={nxt} />
                         ) : (
-                          <RightPage chapter={nxt} onExpandVideo={() => {}} />
+                          <RightPage
+                            chapter={nxt}
+                            onExpandVideo={() => {}}
+                            isFinalChapter={nextChapter === chapters.length - 1}
+                            onShowOutro={() => {}}
+                          />
                         )}
                       </div>
                     </div>
@@ -314,6 +329,11 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
         onClose={() => setExpandedVideo(false)}
         chapter={cur}
       />
+
+      {/* Full screen outro video */}
+      {showOutroVideo && (
+        <OutroVideo onClose={() => setShowOutroVideo(false)} />
+      )}
     </div>
   );
 }
@@ -655,13 +675,20 @@ function LeftPage({ chapter }: { chapter: (typeof chapters)[0] }) {
 function RightPage({
   chapter,
   onExpandVideo,
+  isFinalChapter,
+  onShowOutro,
 }: {
   chapter: (typeof chapters)[0];
   onExpandVideo: () => void;
+  isFinalChapter?: boolean;
+  onShowOutro?: () => void;
 }) {
   return (
     <div className="absolute inset-0 overflow-hidden">
       <Sparkles count={5} seed={chapter.id + 10} />
+
+      {/* Dobby Popup if it's the final chapter */}
+      {isFinalChapter && onShowOutro && <DobbyOutro onClick={onShowOutro} />}
 
       {/* Title */}
       <div className="px-5 pt-4 pb-1 text-center">
@@ -749,6 +776,67 @@ function RightPage({
           {chapter.id * 2}
         </span>
       </div>
+    </div>
+  );
+}
+
+function DobbyOutro({ onClick }: { onClick: () => void }) {
+  return (
+    <div
+      className="absolute z-[70] cursor-pointer animate-fade-in-up hover:scale-105 transition-transform duration-300 pointer-events-auto flex items-end justify-center"
+      style={{
+        bottom: "-2%",
+        right: "-2%",
+        animationDelay: "1s",
+        animationFillMode: "both",
+      }}
+      onClick={onClick}
+    >
+      <div className="relative group flex flex-col items-center">
+        {/* CSS Speech bubble */}
+        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 bg-[#efdbb2] border-2 border-[#8b6914] rounded-lg p-2 shadow-lg text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 before:content-[''] before:absolute before:bottom-[-10px] before:left-1/2 before:-translate-x-1/2 before:border-x-[10px] before:border-x-transparent before:border-t-[10px] before:border-t-[#8b6914] after:content-[''] after:absolute after:bottom-[-7px] after:left-1/2 after:-translate-x-1/2 after:border-x-[8px] after:border-x-transparent after:border-t-[8px] after:border-t-[#efdbb2]">
+          <p className="font-harry text-2xl text-[#543210] leading-none">
+            Ready for the ride?
+          </p>
+        </div>
+        <img
+          src="/images/dobby.png"
+          alt="Dobby ready for the ride"
+          className="w-70 md:w-85 h-auto drop-shadow-2xl filter"
+          style={{ filter: "drop-shadow(0 12px 16px rgba(0,0,0,0.6))" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function OutroVideo({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center animate-fade-in">
+      <video
+        src="/exit/gringotts.MP4"
+        autoPlay
+        playsInline
+        className="w-full h-full object-cover"
+        onEnded={onClose}
+      />
+      <button
+        onClick={onClose}
+        className="absolute top-8 right-8 z-[110] p-2 rounded-full bg-black/40 text-white/50 hover:text-white hover:bg-black/80 transition-colors border border-white/10"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M18 6L6 18M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   );
 }

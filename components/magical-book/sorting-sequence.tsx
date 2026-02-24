@@ -64,8 +64,8 @@ export function SortingSequence({ onComplete }: { onComplete: () => void }) {
             <h2 className="font-harry text-5xl md:text-7xl text-[#c9a84c] mb-6 tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)]">
               Welcome Yashu...
             </h2>
-            <h3 className="font-harry text-4xl md:text-6xl text-[#ae0001] tracking-widest drop-shadow-[0_0_20px_rgba(211,166,37,0.6)] animate-pulse">
-              heading to Gryffindor!
+            <h3 className="flex items-center justify-center gap-4 font-harry text-4xl md:text-6xl text-[#ff2400] tracking-widest drop-shadow-[0_0_25px_rgba(211,166,37,1)] animate-pulse">
+              <span>🦁</span> heading to Gryffindor! <span>🦁</span>
             </h3>
           </div>
         )}

@@ -16,7 +16,7 @@ export const chapters: Chapter[] = [
     title: "The Prophecy",
     subtitle: "How Two Souls Found Each Other",
     storyText:
-      "✨ *Lumos!* Just like that, you cast continuous light into my life. 🌟 Before our eyes met, two souls wandered separately, unknowing they were meant to converge. But in that exact moment, the shadows vanished, replaced by a quiet, undeniable certainty that everything prior had simply been leading here. 🔮 The universe had been waiting. 🦋 The magic had only just begun.",
+      "✨ *Lumos!* When laziness met craziness, who knew it would create the perfect kind of magic? 🌟 Before our eyes met, two very different souls wandered separately. But in that exact moment, the shadow of boredom vanished, replaced by an undeniable spark. 🔮 The universe had been waiting for this chaotic, beautiful collision. 🦋 The magic had only just begun.",
     videoPlaceholder: "Your first meeting memory",
     videoUrl: "/images/chapters/chapter1.mp4",
     mediaPosition: "30% center",
@@ -37,7 +37,7 @@ export const chapters: Chapter[] = [
     title: "The Unbreakable Vow",
     subtitle: "A Promise for Eternity",
     storyText:
-      "In the wizarding world, an Unbreakable Vow is the most sacred bond — a promise sealed by magic itself, never to be broken. On that unforgettable day, surrounded by love and light, two hearts made their own Unbreakable Vow. Not because magic compelled them, but because love did. Every word spoken was a spell of commitment, every tear shed a potion of joy. The rings exchanged were not mere metal — they were portkeys to forever.",
+      "An Unbreakable Vow is the most sacred bond. But honestly? 2 years ago, I bent the knee and got a wonderful wife... absolutely the best trade deal ever in the history of trade deals! Surrounded by love and light, we made our own vow. Not because magic compelled us, but because we knew life would be endlessly better together. The rings exchanged were our portkeys to forever.",
     videoPlaceholder: "Your wedding day memory",
     videoUrl: "/images/chapters/chapter3.mp4",
     gifCaption: "A bond sealed by magic",
@@ -57,7 +57,7 @@ export const chapters: Chapter[] = [
     title: "The Next Adventure",
     subtitle: "Our Future Awaits",
     storyText:
-      "As Dumbledore once said, 'It does not do to dwell on dreams and forget to live.' But what if the dream IS the life you're living? The pages ahead are blank and beautiful, waiting to be filled with new adventures, new memories, and new chapters of this extraordinary saga. The wand chooses the wizard — and destiny chose us for each other. Whatever comes next, we face it together. Always.",
+      "Two magical years down, an entire lifetime to go. As Dumbledore once said, 'It does not do to dwell on dreams and forget to live.' But the reality of the past two years has been better than any dream. The pages ahead are waiting to be filled with even more craziness, love, and adventures. The wand chose the wizard, but we continue to choose each other every single day. Happy 2nd Anniversary, Yashu! Always.",
     videoPlaceholder: "Your future together",
     videoUrl: "/images/chapters/chapter5.mp4",
     gifCaption: "Soaring into the next chapter",

@@ -66,10 +66,16 @@ export default function SaiWedsSai() {
               </h1>
               <button
                 onClick={() => setIntroStarted(true)}
-                className="relative px-8 py-3 rounded-full border border-[rgba(201,168,76,0.5)] bg-[rgba(20,10,5,0.7)] text-[#c9a84c] font-serif tracking-widest text-sm hover:bg-[rgba(201,168,76,0.15)] hover:border-[#c9a84c] hover:scale-105 transition-colors transition-transform duration-300 opacity-0 animate-fade-in-up z-20"
+                className="relative group flex flex-col items-center justify-center opacity-0 animate-fade-in-up z-20 focus:outline-none hover:scale-105 transition-transform duration-500"
                 style={{ animationDelay: "1.5s" }}
               >
-                Enter the Magic
+                <div className="w-[27rem] h-[27rem] md:w-[36rem] md:h-[36rem] relative">
+                  <img
+                    src="/images/sorting.png"
+                    alt="Sorting Hat holding a magical notepad"
+                    className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)] group-hover:drop-shadow-[0_0_35px_rgba(201,168,76,0.7)] transition-all duration-500 transform group-hover:-rotate-3"
+                  />
+                </div>
               </button>
             </div>
           ) : (

@@ -68,13 +68,7 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
       {/* Engorgio Spell Overlay */}
       {showSpell && (
         <div className="absolute inset-0 z-[60] flex items-center justify-center pointer-events-none animate-fade-in-out">
-          <h2
-            className="font-harry text-6xl md:text-8xl text-[#c9a84c] tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)] animate-pulse"
-            style={{
-              textShadow:
-                "0 0 20px rgba(201,168,76,0.6), 0 0 40px rgba(201,168,76,0.4)",
-            }}
-          >
+          <h2 className="font-harry text-6xl md:text-8xl text-[#2a1505] tracking-widest drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] animate-pulse">
             Engorgio...
           </h2>
         </div>
@@ -100,9 +94,10 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
 
         {/* Video container — Full Color */}
         <div
-          className="relative overflow-hidden"
+          className="relative overflow-hidden mx-auto"
           style={{
-            aspectRatio: "16/9",
+            aspectRatio: chapter.id === 4 ? "9/16" : "16/9",
+            maxWidth: chapter.id === 4 ? "400px" : "100%",
             borderRadius: "8px",
             border: "2px solid rgba(201, 168, 76, 0.3)",
             boxShadow:
@@ -116,6 +111,9 @@ export function VideoModal({ isOpen, onClose, chapter }: VideoModalProps) {
               controls
               playsInline
               className="w-full h-full object-cover bg-black"
+              style={{
+                objectPosition: chapter.id === 5 ? "50% 15%" : "center",
+              }}
             />
           ) : (
             <div

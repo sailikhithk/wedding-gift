@@ -62,13 +62,7 @@ export function BookInterior({ visible, onClose }: BookInteriorProps) {
       {/* ── ACCIO SPELL OVERLAY ── */}
       {isPageTurning && (
         <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none animate-fade-in-out">
-          <h2
-            className="font-harry text-6xl md:text-8xl text-[#c9a84c] tracking-widest drop-shadow-[0_0_15px_rgba(201,168,76,0.8)] animate-pulse"
-            style={{
-              textShadow:
-                "0 0 20px rgba(201,168,76,0.6), 0 0 40px rgba(201,168,76,0.4)",
-            }}
-          >
+          <h2 className="font-harry text-6xl md:text-8xl text-[#2a1505] tracking-widest drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] animate-pulse">
             Accio...
           </h2>
         </div>

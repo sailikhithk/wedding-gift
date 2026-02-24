@@ -48,7 +48,7 @@ export const chapters: Chapter[] = [
     subtitle: "Building a Life of Magic Together",
     storyText:
       "Like the Order of the Phoenix rising from the ashes, The Order of the Two Sais was forged in love, laughter, and a shared devotion to something greater. Together they built not just a home, but a sanctuary — a place where morning chai became a daily ritual, where inside jokes became sacred incantations, and where every challenge faced together only strengthened the bond. This was no longer two stories — it was one magnificent tale.",
-    videoPlaceholder: "Your life together memory",
+    videoPlaceholder: "Adding our Dance performance video",
     videoUrl: "/images/chapters/chapter4.mp4",
     gifCaption: "The magic of togetherness",
   },
